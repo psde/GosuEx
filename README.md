@@ -1,17 +1,17 @@
 EXTENSIONS
 ==========
 * **Data**:
-
+  
   Data is an easy interface to store digital data (i.e. savegames or other things). It provides functionality to compress the serialized data using zlib. The stored data can then either be sent with a Gosu::Socket or be stored in a file. For  file storages there are predefined functions available. This is a library based extension.
 
 * **Widgets**:
-
+  
   Widgets (should) provide an easy way to create a simple user interface within Gosu. This is a library based extension.
 
 EXAMPLES
 ========
 * **Packer**:
-
+  
   Packer is for the example use of GosuEx::Data::Archive. It is capable of listing, extracting, deleting or adding files from/to/in an archive.
 	
 INSTALLATION (WINDOWS)
@@ -21,7 +21,7 @@ You probably have to add this path here to your include path so that it is possi
 Short:
 - Checkout Gosu SVN/clone Gosu git
 - Set the workcopy/clone path (i.e. D:\Visual Studio 2008\libs\Gosu\) to the environment variable GOSU_DIR
-
+  
   > To check if it's working, run cmd and try 'cd %GOSU_DIR%'.
 - Compile the projects you want to.
   
