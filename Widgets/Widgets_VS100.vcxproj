@@ -11,10 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}</ProjectGuid>
-    <RootNamespace>Data</RootNamespace>
+    <ProjectGuid>{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}</ProjectGuid>
+    <RootNamespace>Widgets</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>Data</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -49,7 +48,6 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(GOSU_DIR)/dependencies/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -60,14 +58,13 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <OutputFile>$(OutDir)$(ProjectName)Debug.lib</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(GOSU_DIR)/dependencies/zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -78,15 +75,33 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Archive.cpp" />
-    <ClCompile Include="Compress.cpp" />
+    <ClCompile Include="AdvancedGosuTextInput.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Colorable.cpp" />
+    <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="FontText.cpp" />
+    <ClCompile Include="FontTextButton.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="TextInput.cpp" />
+    <ClCompile Include="Widget.cpp" />
+    <ClCompile Include="Effects\Effect.cpp" />
+    <ClCompile Include="Effects\FadeColor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Archive.hpp" />
+    <ClInclude Include="AdvancedGosuTextInput.hpp" />
     <ClInclude Include="AutoLink.hpp" />
-    <ClInclude Include="Compress.hpp" />
+    <ClInclude Include="Button.hpp" />
+    <ClInclude Include="Colorable.hpp" />
+    <ClInclude Include="Cursor.hpp" />
+    <ClInclude Include="FontText.hpp" />
+    <ClInclude Include="FontTextButton.hpp" />
     <ClInclude Include="Fwd.hpp" />
-    <ClInclude Include="Packet.hpp" />
+    <ClInclude Include="Image.hpp" />
+    <ClInclude Include="List.hpp" />
+    <ClInclude Include="TextInput.hpp" />
+    <ClInclude Include="Widget.hpp" />
+    <ClInclude Include="Effects\Effect.hpp" />
+    <ClInclude Include="Effects\FadeColor.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,3 +5,7 @@
 /Examples/Data/Packer/Release
 *.suo
 *.ncb
+*.pl
+/Widgets/Debug
+/Widgets/Release
+*.sdf

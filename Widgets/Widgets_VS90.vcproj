@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Data"
-	ProjectGUID="{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}"
-	RootNamespace="Data"
+	Name="Widgets"
+	ProjectGUID="{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}"
+	RootNamespace="Widgets"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -41,7 +41,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(GOSU_DIR)/dependencies/zlib"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -106,7 +105,6 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(GOSU_DIR)/dependencies/zlib"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -147,26 +145,66 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
+			Name="Source"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Archive.cpp"
+				RelativePath=".\AdvancedGosuTextInput.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Compress.cpp"
+				RelativePath=".\Button.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\Colorable.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Cursor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FontText.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FontTextButton.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Image.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TextInput.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Widget.cpp"
+				>
+			</File>
+			<Filter
+				Name="Effects"
+				>
+				<File
+					RelativePath=".\Effects\Effect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Effects\FadeColor.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
-			Name="Header Files"
+			Name="Headers"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Archive.hpp"
+				RelativePath=".\AdvancedGosuTextInput.hpp"
 				>
 			</File>
 			<File
@@ -174,7 +212,23 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Compress.hpp"
+				RelativePath=".\Button.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Colorable.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Cursor.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FontText.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\FontTextButton.hpp"
 				>
 			</File>
 			<File
@@ -182,9 +236,33 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Packet.hpp"
+				RelativePath=".\Image.hpp"
 				>
 			</File>
+			<File
+				RelativePath=".\List.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TextInput.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Widget.hpp"
+				>
+			</File>
+			<Filter
+				Name="Effects"
+				>
+				<File
+					RelativePath=".\Effects\Effect.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Effects\FadeColor.hpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>
