@@ -3,3 +3,5 @@
 /Data/Release
 /Examples/Data/Packer/Debug
 /Examples/Data/Packer/Release
+*.suo
+*.ncb
