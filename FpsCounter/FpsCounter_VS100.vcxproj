@@ -11,22 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}</ProjectGuid>
-    <RootNamespace>Widgets</RootNamespace>
+    <ProjectName>FpsCounter</ProjectName>
+    <ProjectGuid>{CB168722-F0FB-46B5-87F0-3AB954C11320}</ProjectGuid>
+    <RootNamespace>FpsCounter</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>Widgets</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v90</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v90</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -44,7 +42,6 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)..\lib\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)Debug</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -52,14 +49,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Lib>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)Debug.lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -67,7 +64,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -76,33 +73,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AdvancedGosuTextInput.cpp" />
-    <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Colorable.cpp" />
-    <ClCompile Include="Cursor.cpp" />
-    <ClCompile Include="FontText.cpp" />
-    <ClCompile Include="FontTextButton.cpp" />
-    <ClCompile Include="Image.cpp" />
-    <ClCompile Include="TextInput.cpp" />
-    <ClCompile Include="Widget.cpp" />
-    <ClCompile Include="Effects\Effect.cpp" />
-    <ClCompile Include="Effects\FadeColor.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AdvancedGosuTextInput.hpp" />
-    <ClInclude Include="AutoLink.hpp" />
-    <ClInclude Include="Button.hpp" />
-    <ClInclude Include="Colorable.hpp" />
-    <ClInclude Include="Cursor.hpp" />
-    <ClInclude Include="FontText.hpp" />
-    <ClInclude Include="FontTextButton.hpp" />
-    <ClInclude Include="Fwd.hpp" />
-    <ClInclude Include="Image.hpp" />
-    <ClInclude Include="List.hpp" />
-    <ClInclude Include="TextInput.hpp" />
-    <ClInclude Include="Widget.hpp" />
-    <ClInclude Include="Effects\Effect.hpp" />
-    <ClInclude Include="Effects\FadeColor.hpp" />
+    <ClInclude Include="FpsCounter.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

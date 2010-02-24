@@ -5,7 +5,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Data", "Data\Data_VS100.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Packer", "Examples\Data\Packer\Packer_VS100.vcxproj", "{4FC1D8B0-E735-43FD-B473-7C666CCD5AA1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Widgets_VS100", "Widgets\Widgets_VS100.vcxproj", "{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Widgets", "Widgets\Widgets_VS100.vcxproj", "{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FpsCounter", "FpsCounter\FpsCounter_VS100.vcxproj", "{CB168722-F0FB-46B5-87F0-3AB954C11320}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shader", "Shader\Shader_VS100.vcxproj", "{690AB793-BA3F-43ED-9887-62FB54CF21D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,14 @@ Global
 		{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}.Debug|Win32.Build.0 = Debug|Win32
 		{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}.Release|Win32.ActiveCfg = Release|Win32
 		{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}.Release|Win32.Build.0 = Release|Win32
+		{CB168722-F0FB-46B5-87F0-3AB954C11320}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CB168722-F0FB-46B5-87F0-3AB954C11320}.Debug|Win32.Build.0 = Debug|Win32
+		{CB168722-F0FB-46B5-87F0-3AB954C11320}.Release|Win32.ActiveCfg = Release|Win32
+		{CB168722-F0FB-46B5-87F0-3AB954C11320}.Release|Win32.Build.0 = Release|Win32
+		{690AB793-BA3F-43ED-9887-62FB54CF21D0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{690AB793-BA3F-43ED-9887-62FB54CF21D0}.Debug|Win32.Build.0 = Debug|Win32
+		{690AB793-BA3F-43ED-9887-62FB54CF21D0}.Release|Win32.ActiveCfg = Release|Win32
+		{690AB793-BA3F-43ED-9887-62FB54CF21D0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
