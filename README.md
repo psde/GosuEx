@@ -21,7 +21,7 @@ You probably have to add this path here to your include path so that it is possi
 Short:
 
 * Checkout Gosu SVN/clone Gosu git
-* Set the workcopy/clone path (i.e. D:\Visual Studio 2008\libs\Gosu\) to the environment variable GOSU_DIR. To check if it's working, run cmd and try 'cd %GOSU_DIR%'.
+* <s>Set the workcopy/clone path (i.e. D:\Visual Studio 2008\libs\Gosu\) to the environment variable GOSU_DIR. To check if it's working, run cmd and try 'cd %GOSU_DIR%'.</s> Not needed anymore.
 * Compile the projects you want to.
 
 Short (any other system):

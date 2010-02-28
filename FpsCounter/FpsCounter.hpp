@@ -17,7 +17,7 @@ namespace GosuEx
 {
 	class FpsCounter {
 	private:
-	struct FpsPoint {
+		struct FpsPoint {
 			FpsPoint(double fps, bool landmark = false) {
 				this->fps = fps;
 				this->landmark = landmark;
