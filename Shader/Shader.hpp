@@ -6,7 +6,7 @@
 #include <Gosu/Graphics.hpp>
 #include <Gosu/Directories.hpp>
 
-/* Include glew and add the lib */
+// Include glew and add the lib
 #include <GL/glew.h>
 #ifdef _MSC_VER
 	#pragma comment(lib, "glew32.lib")
@@ -18,20 +18,19 @@
 
 namespace GosuEx
 {
-	/* Gets real screen width from the graphics */
-	inline unsigned int realWidth(Graphics &graphics)
+	// Gets real screen width from the graphics
+	inline unsigned int realWidth(Gosu::Graphics &graphics)
 	{
-		return round(graphics.width() * graphics.factorX());
+		return Gosu::round(graphics.width() * graphics.factorX());
 	}
 
-	/* Gets real screen height from the graphics */
-	inline unsigned int realHeight(Graphics &graphics)
+	// Gets real screen height from the graphics 
+	inline unsigned int realHeight(Gosu::Graphics &graphics)
 	{
-		return round(graphics.height() * graphics.factorY());
+		return Gosu::round(graphics.height() * graphics.factorY());
 	}
 
-
-	/* Holds opengl ids to shader program, vertex and fragment shader */
+	// Holds opengl ids to shader program, vertex and fragment shader
 	struct ShaderProgram
 	{
 		GLint program, vertex, fragment;
@@ -49,34 +48,33 @@ namespace GosuEx
 	class Shader
 	{
 		private:
-			Graphics *graphics;
+			Gosu::Graphics *graphics;
 
 		public:
-			Shader(Graphics &graphics)
+			Shader(Gosu::Graphics &graphics)
 			{
-				/* Set our local graphics reference to passed argument */
+				// Set our local graphics reference to passed argument
 				this->graphics = &graphics;
 
 				static bool glewInitialized = false;
 
-				/* Is glew already initialized? */
+				// Is glew already initialized?
 				if(!glewInitialized)
 				{
-					/* Init glew */
 					glewInit();
 
 					glewInitialized = true;
 				}
 
-				/* Check if shaders are supported by GPU */
+				// Check if shaders are supported by GPU
 				if (!available())
 					return;
 
-				/* Init the texture */
+				// Init the texture 
 				internalTexture(graphics);
 			}
 
-			static GLuint internalTexture(Graphics& graphics)
+			static GLuint internalTexture(Gosu::Graphics& graphics)
 			{
 				static bool initialized = false;
 				static GLuint texture = -1;
@@ -85,14 +83,14 @@ namespace GosuEx
 				int width = realWidth(graphics);
 				int height = realHeight(graphics);
 
-				/* Is the texture uninitialized or did the screen size change? */
+				// Is the texture uninitialized or did the screen size change?
 				if (!initialized || textureWidth != width || textureHeight != height)
 				{
-					/* If texture already exists, delete it first */
+					// If texture already exists, delete it first
 					if(texture != -1)
 						glDeleteTextures(1, &texture);
 
-					/* Create a texture of screen size */
+					// Create a texture of screen size
 					glGenTextures(1, &texture);
 					glBindTexture(GL_TEXTURE_2D, texture);
 					glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, 1);
@@ -101,7 +99,7 @@ namespace GosuEx
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
 					glBindTexture(GL_TEXTURE_2D, 0);
 
-					/* Save the width and height */
+					// Save the width and height
 					textureWidth = width;
 					textureHeight = height;
 
@@ -111,7 +109,8 @@ namespace GosuEx
 				return texture;
 			}
 
-			void /*Kernel3x3*/ kernelTextureCoordOffsets(ShaderProgram program, char *uniform)
+			// TODO: this is ugly, rethink this approach
+			void kernelTextureCoordOffsets(ShaderProgram program, char *uniform)
 			{
 				Kernel3x3 texKernel;
 				GLint i, j;
@@ -132,60 +131,48 @@ namespace GosuEx
 				glUseProgram(program.program);
 				glUniform2fv(glGetUniformLocation(program.program, uniform), 9, texKernel.texCoordOffsets);
 				glUseProgram(0);
-
-				//return texKernel;
 			}
 
-			/* Check if shaders are supported by GPU */
+			// Check if shaders are supported by GPU
 			bool available()
 			{
 				if(glewIsSupported("GL_VERSION_2_0")) return true;
 				return false;
 			}
 
-			std::string loadShaderFile(std::wstring file) // this is not even working, I dont get gosu buffers, wstrings or anything related to gosu reading/writing files
+			std::string loadShaderFile(std::wstring file)
 			{
-				Buffer buf;
-				loadFile(buf, file);
+				Gosu::Buffer buf;
+				Gosu::loadFile(buf, file);
 				std::string data(reinterpret_cast<char*>(buf.data()), buf.size());
-				//const GLchar *test = data.c_str();
-				//std::cout << test << std::endl;
 				return data;
 			}
 
-			/* Check if shader is already compiled and returns pointer to compiled ShaderProgram */
+			// Check if shader is already compiled and returns pointer to compiled ShaderProgram
 			ShaderProgram compile(std::wstring fsfile, std::wstring vsfile = L"")
 			{
-				/* Map that stores compiled shader programs */
+				// Map that stores compiled shader programs
 				static std::map<std::wstring, ShaderProgram> shaders;
 				if(shaders.find(fsfile) == shaders.end())
 				{
-					/* Load the fragment shader file, the ugly way */
-					//const GLchar *fragmentShader = loadShaderFile(fsfile).c_str();
-					Buffer buf;
-					loadFile(buf, fsfile);
-					std::string data(reinterpret_cast<char*>(buf.data()), buf.size());
-					const GLchar *fragmentShader = data.c_str();
+					// Load the fragment shader file
+					std::string temp = this->loadShaderFile(fsfile);
+					const GLchar *fragmentShader = temp.c_str();
 
-
-					/* Create shader program */
+					// Create shader program
 					ShaderProgram program;
 					program.program = glCreateProgram();
 
-					/* 'Fixed functionality' vertex shader, this is hard coded to simplify post processing */
-					// Think about why this is hardcoded. Would it make more sense to actually ship a fixedfunc.vs?
-					// Could be usefull for people. Or not. 
+					// 'Fixed functionality' vertex shader, this is hard coded for easy use
 					const GLchar* ffVertexShader = "void main(void)\r\n{\r\ngl_Position = ftransform();\r\ngl_TexCoord[0] = gl_MultiTexCoord0;\r\n}\r\n";
 
 					int success;
-					/* Attach vertex shader */
+					// Attach vertex shader
 					program.vertex = glCreateShader(GL_VERTEX_SHADER);
 					if(vsfile != L"")
 					{
-						Buffer buf1;
-						loadFile(buf1, vsfile);
-						std::string data1(reinterpret_cast<char*>(buf1.data()), buf1.size());
-						const GLchar* vertexShader = data1.c_str();
+						temp = this->loadShaderFile(vsfile);
+						const GLchar* vertexShader = temp.c_str();
 						glShaderSource(program.vertex, 1, &vertexShader, NULL);
 					}else{
 						glShaderSource(program.vertex, 1, &ffVertexShader, NULL);
@@ -202,7 +189,7 @@ namespace GosuEx
 					}
 					glAttachShader(program.program, program.vertex);
 
-					/* Attach fragment shader */
+					// Attach fragment shader
 					program.fragment = glCreateShader(GL_FRAGMENT_SHADER);
 					glShaderSource(program.fragment, 1, &fragmentShader , NULL);
 					glCompileShader(program.fragment);					
@@ -217,10 +204,10 @@ namespace GosuEx
 					}
 					glAttachShader(program.program, program.fragment);
 
-					/* Compile shader program */
+					// Compile shader program
 					glLinkProgram(program.program);
 
-					/* Add compiled program to our shader map */
+					// Add compiled program to our shader map
 					shaders[fsfile] = program;
 				}
 				return shaders[fsfile];
@@ -253,7 +240,7 @@ namespace GosuEx
 				glUseProgram(0);
 			}*/
 
-			/* Applies shader to frame buffer contents */
+			// Applies shader to frame buffer contents
 			// Think about stuff like texture units. Maybe the user wants to do something more "special"
 			// like multitexturing. He should be able to do so without replicating all the gl stuff
 			// (As we do at the normalmapping class at the moment)
@@ -262,20 +249,20 @@ namespace GosuEx
 				int width = realWidth(*this->graphics);
 				int height = realHeight(*this->graphics);
 
-				/* If we don't have shader support don't do anything */
+				// If we don't have shader support don't do anything
 				if(!available()) return;
 
-				/* Force the Gosu drawOpQueue to flush */
+				// Force the Gosu drawOpQueue to flush
 				graphics->beginGL();
 
-				/* Copy frame buffer contents to internal texture */
+				// Copy frame buffer contents to internal texture
 				glBindTexture(GL_TEXTURE_2D, GosuEx::Shader::internalTexture(*this->graphics));
 				glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 0, 0, width, height, 0);
 
-				/* Activate shader program */
+				// Activate shader program
 				glUseProgram(program.program);
 
-				/* Clears screen */
+				// Clears screen
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
@@ -285,13 +272,13 @@ namespace GosuEx
 				glViewport(0, 0, width, height);
 				glOrtho(0, width, height, 0, -1, 1);
 
-				/* Enable texturing and bind the internal texture */
+				// Enable texturing and bind the internal texture
 				// Why are we not activating texturing nor the texture unit here?
 				//glEnable(GL_TEXTURE_2D);
 				//glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, GosuEx::Shader::::internalTexture(*this->graphics));
+				glBindTexture(GL_TEXTURE_2D, GosuEx::Shader::internalTexture(*this->graphics));
 
-				/* Draws screen-sized quad */
+				// Draws screen-sized quad
 				glBegin(GL_QUADS);
 					glTexCoord2f(0.0f, 1.0f);
 					glVertex2f(0, 0);
@@ -303,7 +290,7 @@ namespace GosuEx
 					glVertex2f(0, (GLfloat)height);
 				glEnd();
 
-				/* Disable shader program */
+				// Disable shader program
 				glUseProgram(0);
 
 				glMatrixMode(GL_PROJECTION);
