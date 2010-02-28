@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Data", "Data\Data_VS90.vcproj", "{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Packer", "Examples\Data\Packer\Packer_VS90.vcproj", "{4FC1D8B0-E735-43FD-B473-7C666CCD5AA1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029} = {B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Widgets", "Widgets\Widgets_VS90.vcproj", "{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FpsCounter", "FpsCounter\FpsCounter_VS90.vcproj", "{CB168722-F0FB-46B5-87F0-3AB954C11320}"
@@ -24,10 +19,6 @@ Global
 		{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}.Debug|Win32.Build.0 = Debug|Win32
 		{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}.Release|Win32.ActiveCfg = Release|Win32
 		{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}.Release|Win32.Build.0 = Release|Win32
-		{4FC1D8B0-E735-43FD-B473-7C666CCD5AA1}.Debug|Win32.ActiveCfg = Debug|Win32
-		{4FC1D8B0-E735-43FD-B473-7C666CCD5AA1}.Debug|Win32.Build.0 = Debug|Win32
-		{4FC1D8B0-E735-43FD-B473-7C666CCD5AA1}.Release|Win32.ActiveCfg = Release|Win32
-		{4FC1D8B0-E735-43FD-B473-7C666CCD5AA1}.Release|Win32.Build.0 = Release|Win32
 		{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}.Debug|Win32.ActiveCfg = Debug|Win32
 		{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}.Debug|Win32.Build.0 = Debug|Win32
 		{EBCEA7BA-CCAC-4187-AF6C-55679E4ABE84}.Release|Win32.ActiveCfg = Release|Win32
