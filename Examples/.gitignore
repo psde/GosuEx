@@ -1,0 +1,12 @@
+
+/Data/Debug
+/Data/Release
+/Examples/Data/Packer/Debug
+/Examples/Data/Packer/Release
+*.suo
+*.ncb
+*.pl
+/Widgets/Debug
+/Widgets/Release
+*.sdf
+*.opensdf
