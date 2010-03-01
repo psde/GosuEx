@@ -67,7 +67,7 @@ namespace GosuEx
 				}
 
 				// Check if shaders are supported by GPU
-				if (!available())
+				if (!Shader::available())
 					return;
 
 				// Init the texture 
@@ -134,7 +134,7 @@ namespace GosuEx
 			}
 
 			// Check if shaders are supported by GPU
-			bool available()
+			static bool available()
 			{
 				if(glewIsSupported("GL_VERSION_2_0")) return true;
 				return false;
@@ -215,42 +215,46 @@ namespace GosuEx
 			
 			// Think about passing stuff to the shader, maybe we should not wrap around glUniformXY
 			// (And even if we do, implement stuff like uniform2f/3f for vector stuff, as they are quite common)
-			/* Sets integer uniform */
-			void uniform(ShaderProgram program, char *uniform, int value)
+			// Sets integer uniform
+			void uniform1i(ShaderProgram program, char *uniform, int value)
 			{
 				glUseProgram(program.program);
 				glUniform1i(glGetUniformLocation(program.program, uniform), value);
 				glUseProgram(0);
 			}
 
-			/* Sets float uniform */
-			void uniform(ShaderProgram program, char *uniform, float value)
+			// Sets float uniform
+			void uniform1f(ShaderProgram program, char *uniform, float value)
 			{
 				glUseProgram(program.program);
 				glUniform1f(glGetUniformLocation(program.program, uniform), value);
 				glUseProgram(0);
 			}
 
-			/* Sets 3x3 Kernel Tex uniform */
-			// Decided against this, if someone uses a kernel tex they should do it on their own. kinda. 
-			/*void uniform(ShaderProgram program, char* uniform, Kernel3x3 value)
+			void uniform2f(ShaderProgram program, char *uniform, float value1, float value2)
 			{
 				glUseProgram(program.program);
-				glUniform2fv(glGetUniformLocation(program.program, uniform), 9, value.texCoordOffsets);
+				glUniform2f(glGetUniformLocation(program.program, uniform), value1, value2);
 				glUseProgram(0);
-			}*/
+			}
+
+			void uniform3f(ShaderProgram program, char *uniform, float value1, float value2, float value3)
+			{
+				glUseProgram(program.program);
+				glUniform3f(glGetUniformLocation(program.program, uniform), value1, value2, value3);
+				glUseProgram(0);
+			}
 
 			// Applies shader to frame buffer contents
 			// Think about stuff like texture units. Maybe the user wants to do something more "special"
 			// like multitexturing. He should be able to do so without replicating all the gl stuff
-			// (As we do at the normalmapping class at the moment)
 			void run(ShaderProgram program)
 			{
 				int width = realWidth(*this->graphics);
 				int height = realHeight(*this->graphics);
 
 				// If we don't have shader support don't do anything
-				if(!available()) return;
+				if(!Shader::available()) return;
 
 				// Force the Gosu drawOpQueue to flush
 				graphics->beginGL();
