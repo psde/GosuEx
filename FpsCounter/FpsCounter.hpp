@@ -15,9 +15,14 @@
 
 namespace GosuEx
 {
+	/**
+	* A simple FPS counter with a simple graph.
+	* To use it FpsCounter::draw() and FpsCounter::updateFPS() have to be placed
+	* at the end of the Gosu::Window::draw() method IN THIS ORDER.
+	*/
 	class FpsCounter {
 	private:
-		struct FpsPoint {
+	struct FpsPoint {
 			FpsPoint(double fps, bool landmark = false) {
 				this->fps = fps;
 				this->landmark = landmark;
@@ -60,6 +65,7 @@ namespace GosuEx
 			this->graphics = graphics;
 			this->x = x;
 			this->y = y;
+			this->z = z;
 			this->width = width;
 			this->height = height;
 			this->updateInterval = updateInterval;
