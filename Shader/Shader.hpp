@@ -171,8 +171,8 @@ namespace GosuEx
 					program.vertex = glCreateShader(GL_VERTEX_SHADER);
 					if(vsfile != L"")
 					{
-						temp = this->loadShaderFile(vsfile);
-						const GLchar* vertexShader = temp.c_str();
+						std::string temp2 = this->loadShaderFile(vsfile);
+						const GLchar* vertexShader = temp2.c_str();
 						glShaderSource(program.vertex, 1, &vertexShader, NULL);
 					}else{
 						glShaderSource(program.vertex, 1, &ffVertexShader, NULL);
@@ -185,7 +185,7 @@ namespace GosuEx
 						GLchar log[32768];
 						glGetShaderInfoLog(program.vertex, 32768, NULL, log);
 						std::cout << log << std::endl;
-						//throw std::runtime_error(log);
+						throw std::runtime_error(log);
 					}
 					glAttachShader(program.program, program.vertex);
 
@@ -200,7 +200,7 @@ namespace GosuEx
 						GLchar log[32768];
 						glGetShaderInfoLog(program.fragment, 32768, NULL, log);
 						std::cout << log << std::endl;
-						//throw std::runtime_error(log);
+						throw std::runtime_error(log);
 					}
 					glAttachShader(program.program, program.fragment);
 
