@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrameTest", "FrameTest.vcxproj", "{EB65A740-3EA8-41AE-8BE6-5B5779B6F77D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frames", "..\..\..\Frames\Frames.vcxproj", "{0A206042-1213-4EFB-AF48-1627AF72629E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB65A740-3EA8-41AE-8BE6-5B5779B6F77D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EB65A740-3EA8-41AE-8BE6-5B5779B6F77D}.Debug|Win32.Build.0 = Debug|Win32
+		{EB65A740-3EA8-41AE-8BE6-5B5779B6F77D}.Release|Win32.ActiveCfg = Release|Win32
+		{EB65A740-3EA8-41AE-8BE6-5B5779B6F77D}.Release|Win32.Build.0 = Release|Win32
+		{0A206042-1213-4EFB-AF48-1627AF72629E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A206042-1213-4EFB-AF48-1627AF72629E}.Debug|Win32.Build.0 = Debug|Win32
+		{0A206042-1213-4EFB-AF48-1627AF72629E}.Release|Win32.ActiveCfg = Release|Win32
+		{0A206042-1213-4EFB-AF48-1627AF72629E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

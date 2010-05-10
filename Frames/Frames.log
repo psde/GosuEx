@@ -1,0 +1,4 @@
+﻿  Skipping... (no relevant changes detected)
+  FrameManager.cpp
+C:\Programme\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1095,5): warning MSB8012: TargetPath(C:\Dokumente und Einstellungen\Tobias\Eigene Dateien\Visual Studio 2010\GosuExRepos\GosuEx\Frames\..\lib\FramesDebug.lib) does not match the Library's OutputFile property value (C:\Dokumente und Einstellungen\Tobias\Eigene Dateien\Visual Studio 2010\GosuExRepos\GosuEx\lib\FramesDebug.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+  Frames.vcxproj -> C:\Dokumente und Einstellungen\Tobias\Eigene Dateien\Visual Studio 2010\GosuExRepos\GosuEx\Frames\..\lib\FramesDebug.lib
