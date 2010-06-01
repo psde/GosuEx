@@ -10,3 +10,5 @@
 /Widgets/Release
 *.sdf
 *.opensdf
+/Frames/Debug
+/Frames/ipch

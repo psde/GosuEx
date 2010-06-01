@@ -30,11 +30,23 @@ public:
 		StaticText* st;
 		FrameManager::root().createChild(st = new StaticText(100, 100, 14128, myFont, Colors::aqua));
 		st->setText(L"FUN FUN FUN FUN");
-
-		Image* i;
-		FrameManager::root().createChild(i = new Image(800, 600, 10, Gosu::resourcePrefix()+L"FramesLogo.png"));
+		
+		ExtFontText* ft;
+		FrameManager::root().createChild(ft = new ExtFontText(400, 250, 100, myFont, Colors::white));
+		ft->setHighlightedTextColor(Colors::red);
+		ft->setText(L"A wild Pikachu appears!");
+		ExtImage* i;
+		FrameManager::root().createChild(i = new ExtImage(800, 600, 10, Gosu::resourcePrefix()+L"FramesLogo.png"));
+		i->setHighlightedImage(new Gosu::Image(graphics(), Gosu::resourcePrefix()+L"FramesLogoH.png"));
 		i->setRelX(1.0);
 		i->setRelY(1.0);
+		Unit x, y, width, height, rw, rh;
+		x = i->dispX();
+		y = i->dispY();
+		width = i->dispWidth();
+		height = i->dispHeight();
+		rw = i->width();
+		rh = i->height();
 		FramedStaticButton* b;
 		FrameManager::root().createChild(b = new FramedStaticButton(200, 200, 58, 250, 80, myFont, L"This is an annoying button.", Colors::black, Colors::white, Colors::blue, 2.0));
 		//f->setBorderColor(Gosu::Colors::black);

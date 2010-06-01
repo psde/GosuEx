@@ -6,15 +6,13 @@
 */
 
 #include <GosuEx/Frames/Fwd.hpp>
-#include <GosuEx/Frames/FrameManager.hpp>
 #include <vector>
 #include <string>
-#include <algorithm>
 #include <Gosu/Color.hpp>
-#include <Gosu/Math.hpp>
-#include <boost/foreach.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/function.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <Gosu/Input.hpp>
 
 namespace GosuEx {
 	namespace Frames {
@@ -27,208 +25,141 @@ namespace GosuEx {
 		const Unit SQ2 = sqrt(2.0);
 
 		class Widget : public boost::noncopyable {
-			struct Impl {
-				// Widget's parent
-				Widget* parent;
-				// Widget's children
-				std::vector<Widget*> children;
-				// Name
-				std::wstring name;
-				// Coordinates
-				Unit x, y, z;
-				// Size
-				Unit width, height;
-				// Visibility, enabled
-				bool visible, enabled;
-				// Highlighted
-				bool highlighted;
-				// Relation
-				double relX, relY;
-				// Factors
-				double factorX, factorY;
-			} pimpl;
+			struct Impl;
+			boost::scoped_ptr<Impl> pimpl;
 		public:
-			Widget() {
-				pimpl.parent = NULL;
-				pimpl.name = L"";
-				pimpl.x = pimpl.y = pimpl.z = 0;
-				pimpl.width = pimpl.height = 0;
-				pimpl.visible = pimpl.enabled = true;
-				pimpl.highlighted = false;
-				pimpl.relX = pimpl.relY = 0;
-				pimpl.factorX = pimpl.factorY = 1;
-			}
+			Widget();
 
-			Widget(Unit x, Unit y, Unit z, Unit width, Unit height) {
-				pimpl.parent = NULL;
-				pimpl.name = L"";
-				pimpl.x = x;
-				pimpl.y = y;
-				pimpl.z = z;
-				pimpl.width = width;
-				pimpl.height = height;
-				pimpl.visible = pimpl.enabled = true;
-				pimpl.highlighted = false;
-				pimpl.relX = pimpl.relY = 0;
-				pimpl.factorX = pimpl.factorY = 1;
-			}
+			Widget(Unit x, Unit y, Unit z, Unit width, Unit height);
 
-			virtual ~Widget() {
-				// hardcore. erst die parents löschen. dann die children.
-				BOOST_FOREACH(Widget* it, pimpl.children) {
-					it->pimpl.parent = NULL;
-					delete it;
-				}
-			}
+			virtual ~Widget();
+
 			// Coordinates
-			Unit x() const { return pimpl.x; }
-			virtual Unit dispX() const { return x()-relX()*dispWidth(); }
-			Unit y() const { return pimpl.y; }
-			virtual Unit dispY() const { return y()-relY()*dispHeight(); }
-			Unit z() const { return pimpl.z; }
-			virtual Unit width() const { return pimpl.width; }
-			virtual Unit dispWidth() const { return width()*factorX(); }
-			virtual Unit height() const { return pimpl.height; }
-			virtual Unit dispHeight() const { return height()*factorY(); }
+			Unit x() const;
+			virtual Unit dispX() const;
+			Unit y() const;
+			virtual Unit dispY() const;
+			Unit z() const;
+			virtual Unit width() const;
+			virtual Unit dispWidth() const;
+			virtual Unit height() const;
+			virtual Unit dispHeight() const;
 
-			double relX() const { return pimpl.relX; }
-			double relY() const { return pimpl.relY; }
-			double factorX() const { return pimpl.factorX; }
-			double factorY() const { return pimpl.factorY; }
+			double relX() const;
+			double relY() const;
+			double factorX() const;
+			double factorY() const;
 
 			// Returns true if enabled, false if not
-			bool enabled() const { return pimpl.enabled; }
+			bool enabled() const;
 			// Returns true if visible, false if not
-			bool visible() const { return pimpl.visible; }
+			bool visible() const;
 			// Highlighted?
-			bool highlighted() const { return pimpl.highlighted; }
+			bool highlighted() const;
 
 			// Returns the parent
-			Widget* parent() const { return pimpl.parent; }
+			Widget* parent() const;
 			// Returns the name
-			const std::wstring& name() const { return pimpl.name; }
+			const std::wstring& name() const;
 			// Returns all children
-			const std::vector<Widget*> children() const { return pimpl.children; }
+			const std::vector<Widget*> children() const;
 			// Returns a child (by index)
 			// Because names are unique, searching by name is done by FrameManager
-			Widget* child(Index index) {
-				if (index > children().size())
-					return NULL;
-				return children().at(index);
-			}
+			Widget* child(Index index);
 			
 			// adds an ALREADY EXISTING widget.
 			// do NOT use this for new widgets. Use createChild instead.
-			void addChild(Widget* child) {
-				pimpl.children.push_back(child);
-				child->pimpl.parent = this;
+			Widget& addChild(Widget* child);
+			template<typename T> T& addChild(T* child) {
+				addChild(dynamic_cast<Widget*>(child));
+				return child;
 			}
-			
+
 			// adds an NEW widget. Do not use this if you createChild-ed
 			// child already before
-			void createChild(Widget* child) {
-				addChild(child);
-				FrameManager::singleton().addWidget(child);
+			Widget& createChild(Widget* child);
+			template<typename T> T& createChild(T* child) {
+				createChild(dynamic_cast<Widget*>(child));
+				return *child;
 			}
 
 			// adds an NEW widget and set its name. Do not use this if you createChild-ed
 			// child already before
-			void createChild(Widget* child, const std::wstring& name) {
-				child->pimpl.name = name;
-				createChild(child);
+			Widget& createChild(Widget* child, const std::wstring& name);
+			template<typename T> T& createChild(T* child, const std::wstring& name) {
+				createChild(dynamic_cast<Widget*>(child), name);
+				return *child;
 			}
 
 			// removes the widget. IT IS NOT DEAD YET.
 			// Use this to move widgets around.
-			void removeChild(Widget* child) {
-				std::vector<Widget*>::iterator it = std::remove(pimpl.children.begin(), pimpl.children.end(), child);
-				(**it).pimpl.parent = NULL;
-				pimpl.children.erase(it);
-			}
+			void removeChild(Widget* child);
 		
 			// deletes and removes this widget. Use this for memory purposes.
-			void deleteChild(Widget* child) {
-				removeChild(child);
-				FrameManager::singleton().deleteWidget(child);
-			}
+			void deleteChild(Widget* child);
 
 			// set the parent. may be buggy.
-			void setParent(Widget* newParent) {
-				if (parent() != NULL)
-					parent()->removeChild(this);
-				pimpl.parent = newParent;
-				parent()->addChild(this);
-			}
+			void setParent(Widget* newParent);
 
 			// set a widget's name
-			void setName(const std::wstring& newName) {
-				if (!name().empty())
-					FrameManager::singleton().removeNamedWidget(name());
-				pimpl.name = newName;
-				FrameManager::singleton().addNamedWidget(this);
-			}
+			void setName(const std::wstring& newName);
 
-			// true if should be updated
-			// 2do: I've done this shit before. 
-			// do this in bool shouldUpdate() const {};
-			// update and draw should be void.
-			virtual void update() {
-				if (!shouldDraw())
-					return;
-				BOOST_FOREACH(Widget* it, pimpl.children) {
-					it->update();
-				}
-			}
-
-			virtual void draw() {
-				if (!shouldDraw())
-					return;
-				BOOST_FOREACH(Widget* it, pimpl.children) {
-					it->draw();
-				}
-			}
+			virtual void update();
+			virtual void draw();
 
 			// "MOUSE IS NOW OVER WIDGET"
 			// FrameManager only.
-			virtual void hover() {
-				pimpl.highlighted = true;
-				BOOST_FOREACH(Widget* it, pimpl.children) {
-					it->hover();
-				}
-			}
+			virtual void hover();
 
 			// FrameManager only.
-			virtual void blur() {
-				pimpl.highlighted = false;
-				BOOST_FOREACH(Widget* it, pimpl.children) {
-					it->blur();
-				}
-			}
+			virtual void blur();
 
 			// Set coordinates
-			void setX(Unit newX) { pimpl.x = newX; }
-			void setY(Unit newY) { pimpl.y = newY; }
-			void setZ(Unit newZ) { pimpl.z = newZ; }
+			void setX(Unit newX);
+			void setY(Unit newY);
+			void setZ(Unit newZ);
 			
-			void setWidth(Unit newWidth) { pimpl.width = newWidth; }
-			void setHeight(Unit newHeight) { pimpl.height = newHeight; }
+			// Set the mass
+			void setWidth(Unit newWidth);
+			void setHeight(Unit newHeight);
 
-			void setRelX(double newRelX) { pimpl.relX = newRelX; }
-			void setRelY(double newRelY) { pimpl.relY = newRelY; }
+			// Set friends
+			virtual void setRelX(double newRelX);
+			virtual void setRelY(double newRelY);
 
-			void setFactorX(double newFactorX) { pimpl.factorX = newFactorX; }
-			void setFactorY(double newFactorY) { pimpl.factorY = newFactorY; }
+			// Who's invisible NOW
+			void show();
+			void hide();
+			
+			// That's totally unfair
+			void enable();
+			void disable();
 
-			virtual bool highlightable() const { return visible(); }
+			// Set weight
+			void setFactorX(double newFactorX);
+			void setFactorY(double newFactorY);
+
+			// Set publicity
+			virtual bool highlightable() const;
+			void setHighlightable(bool highlightable);
+
+			// Decide over life or death
+			virtual void buttonUp(Gosu::Button btn);
+			virtual void buttonDown(Gosu::Button btn);
+
+			void setButtonUpHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
+			void setButtonDownHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
+			void setClickHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
+			bool clicked(Gosu::Button btn);
+
+			boost::function<void(Widget*)> onBlur, onHover;
 		protected:
-			virtual bool shouldDraw() const {
-				return visible();
-			}
+			virtual bool shouldDraw() const;
 
-			virtual bool shouldUpdate() const {
-				return enabled() && visible();
-			}
+			virtual bool shouldUpdate() const;
 		};
+
+		void dumpWidgets(Widget* root, unsigned int depth = 0);
 	}
 }
 #endif

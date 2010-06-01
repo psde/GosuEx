@@ -5,6 +5,9 @@
 #include <GosuEx/Frames/Widget.hpp>
 #include <GosuEx/Frames/Frame.hpp>
 #include <GosuEx/Frames/FrameManager.hpp>
+#include <GosuEx/Frames/Image.hpp>
+#include <boost/shared_ptr.hpp>
+#include <Gosu/Graphics.hpp>
 
 namespace GosuEx {
 	namespace Frames {
@@ -16,12 +19,14 @@ namespace GosuEx {
 				setZ(z);
 			}
 
+			BasicCursor(Unit z, boost::shared_ptr<Gosu::Image> image): T(0, 0, z, image) {}
+
 			virtual void update() {
 				if (!visible())
 					return;
 				setX(FrameManager::singleton().input().mouseX());
 				setY(FrameManager::singleton().input().mouseY());
-				return;
+				T::update();
 			}
 
 			virtual bool highlightable() const { return false; }
@@ -79,6 +84,8 @@ namespace GosuEx {
 					z());
 			}
 		};
+
+		typedef BasicCursor<Image> ImageCursor;
 	}
 }
 #endif

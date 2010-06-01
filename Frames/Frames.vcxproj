@@ -21,10 +21,14 @@
     <ClInclude Include="Image.hpp" />
     <ClInclude Include="List.hpp" />
     <ClInclude Include="Text.hpp" />
+    <ClInclude Include="Tooltip.hpp" />
     <ClInclude Include="Widget.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Frame.cpp" />
     <ClCompile Include="FrameManager.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Widget.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0A206042-1213-4EFB-AF48-1627AF72629E}</ProjectGuid>
@@ -69,13 +73,14 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <OutputFile>$(OutDir)$(ProjectName)Debug.lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

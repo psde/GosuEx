@@ -48,9 +48,21 @@
     <ClInclude Include="List.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tooltip.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FrameManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

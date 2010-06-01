@@ -7,11 +7,11 @@
 
 namespace GosuEx {
 	namespace Frames {
-		template<typename TBack, typename TKey, typename TElement> BasicList : public TBack {
+		template<typename TBack, typename TKey, typename TElement> class BasicList : public TBack {
 			struct Impl {
 				typename std::map<TKey, TElement*> elements;
 				typename std::map<TKey, TElement*>::iterator iterator;
-				Unit index, visibleElements;
+				std::size_t index, visibleElements;
 			} pimpl;
 		public:
 			BasicList(Unit x, Unit y, Unit z, Unit width, Unit height):
@@ -21,6 +21,11 @@ namespace GosuEx {
 				pimpl.iterator = pimpl.elements.begin();
 			}
 			
+			/*virtual ~BasicList() {
+				for (std::map<TKey, TElement*>::iterator it = pimpl.elements.begin(); it != pimpl.elements.end(); ++it) {
+					//delete it->second;
+				}
+			}*/
 			/*virtual void update() {
 				if (!shouldUpdate())
 					return;
@@ -35,23 +40,25 @@ namespace GosuEx {
 			virtual void draw() {
 				if (!shouldDraw())
 					return;
-				std::map<TKey, TElement*>::iterator it = pimpl.it;
+				std::map<TKey, TElement*>::iterator it = pimpl.iterator;
 				for (std::size_t i = visibleElements(); i && it != pimpl.elements.end(); i--, ++it) {
-					it->second->update();
+					it->second->draw();
 				}
 			}
 
 
-			void createElement(const TKey& key, TElement* element) {
+			TElement* createElement(const TKey& key, TElement* element) {
 				FrameManager::singleton().addWidget(element);
 				addElement(key, element);
+				return element;
 			}
 
 			void addElement(const TKey& key, TElement* element) {
 				pimpl.elements.insert(std::pair<TKey, TElement*>(key, element));
 				element->setParent(this);
-				element->setX(dispX());
+				element->setX(dispX()+dispWidth()/2);
 				element->setRelX(0.5);
+				element->setWidth(dispWidth());
 				setIndex(index());
 			}
 			
@@ -78,15 +85,15 @@ namespace GosuEx {
 			void setIndex(std::size_t newIndex) {
 				if (newIndex > elements()) { newIndex = elements()-1; }
 				// Reset our iterator
-				pimpl.it = pimpl.elements.begin();
+				pimpl.iterator = pimpl.elements.begin();
 				pimpl.index = newIndex;
 
 				for (std::size_t i = newIndex; i; i--)
-					pimpl.it++;
+					pimpl.iterator++;
 
 				pimpl.visibleElements = 0;
 				Unit h = 0;
-				for (std::map<TKey, TElement>::iterator it = pimpl.it; it != pimpl.elements.end(); ++it) {
+				for (std::map<TKey, TElement*>::iterator it = pimpl.iterator; it != pimpl.elements.end(); ++it) {
 					if ((h += it->second->dispHeight()) > dispHeight()) break;
 					pimpl.visibleElements++;
 				}
@@ -97,21 +104,19 @@ namespace GosuEx {
 			}
 
 			template<class Compare> void sort(Compare comp) {
-				pimpl.elements.swap(std::map<TKey, TElement>(pimpl.elements.begin(), pimpl.elements().end(), comp));
+				pimpl.elements.swap(std::map<TKey, TElement*>(pimpl.elements.begin(), pimpl.elements().end(), comp));
 			}
 
 public:
 			void reset() {
-				Unit oy = y();
-				std::map<TKey, TElement>::iterator it = pimpl.it;
+				Unit oy = dispY();
+				std::map<TKey, TElement*>::iterator it = pimpl.iterator;
 				for (std::size_t i = visibleElements(); i && it != pimpl.elements.end(); i--, ++it) {
 					it->second->setY(oy);
 					oy += it->second->dispHeight();
 				}
 			}
 		};
-
-		typedef<
 	}
 }
 #endif

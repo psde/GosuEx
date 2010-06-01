@@ -7,8 +7,8 @@ EXTENSIONS
 <dd>Easy to use header-only fps counter</dd>
 <dt>Shader</dt>
 <dd>Provides simple ways to load, run and debug shaders with gosu, header-only</dd>
-<dt>Widgets</dt>
-<dd>Widgets (should) provide an easy way to create a simple user interface within Gosu. This is a library based extension.</dd>
+<dt>Frames</dt>
+<dd>Widgets for user interfaces. Easy to use (real now!). Not finished yet but quite stable and working.</dd>
 </dl>
 
 EXAMPLES
@@ -16,6 +16,8 @@ EXAMPLES
 <dl>
 <dt>Packer</dt>
 <dd>Packer is for the example use of GosuEx::Data::Archive. It is capable of listing, extracting, deleting or adding files from/to/in an archive.</dd>
+<dt>FrameTest</dt>
+<dd>A simple example of (all) Frames tests.</dd>
 </dl>
 
 INSTALLATION (WINDOWS)

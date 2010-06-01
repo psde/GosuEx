@@ -7,6 +7,10 @@
 #include <GosuEx/Frames/Text.hpp>
 #include <GosuEx/Frames/Image.hpp>
 
+/**
+* Don't forget to reset() after doing things with the textWidget
+*/
+
 namespace GosuEx {
 	namespace Frames {
 		template<typename TBack, typename TText> class BasicButton : public TBack {
@@ -14,22 +18,56 @@ namespace GosuEx {
 				TText* textWidget;
 			} pimpl;
 		public:
+			BasicButton(Unit x, Unit y, Unit z, boost::shared_ptr<Gosu::Image> image, boost::shared_ptr<Gosu::Font> font, const std::wstring& text, Color textColor, Color backgroundColor = Colors::none, Color borderColor = Colors::none, Unit borderWidth = 0.0):
+				TBack(x, y, z, image, backgroundColor)
+			{
+				createChild(pimpl.textWidget = new TText(x, y, z+1, font, textColor));
+				textWidget().setText(text);
+				textWidget().setHighlightable(false);
+				textWidget().setRelX(0.5);
+				textWidget().setRelY(0.5);
+				reset();
+			}
+
 			BasicButton(Unit x, Unit y, Unit z, Unit width, Unit height, boost::shared_ptr<Gosu::Font> font, const std::wstring& text, Color textColor, Color backgroundColor = Colors::none, Color borderColor = Colors::none, Unit borderWidth = 0.0):
 				TBack(x, y, z, width, height, backgroundColor, borderColor, borderWidth)
 			{
 				createChild(pimpl.textWidget = new TText(x, y, z+1, font, textColor));
-				pimpl.textWidget->setText(text);
+				textWidget().setText(text);
+				textWidget().setHighlightable(false);
+				textWidget().setRelX(0.5);
+				textWidget().setRelY(0.5);
 				reset();
 			}
-
-			virtual void reset() {
+			
+			virtual void update() {
 				pimpl.textWidget->setX(dispX()+dispWidth()/2.0);
 				pimpl.textWidget->setY(dispY()+dispHeight()/2.0);
-				pimpl.textWidget->setRelX(0.5);
-				pimpl.textWidget->setRelY(0.5);
+				TBack::update();
 			}
-		};
 
+			virtual void blur() {
+				textWidget().blur();
+				TBack::blur();
+			}
+
+			virtual void hover() {
+				textWidget().hover();
+				TBack::hover();
+			}
+
+			virtual ~BasicButton() {
+				//delete pimpl.textWidget;
+			}
+
+			TText& textWidget() const { return *pimpl.textWidget; }
+
+			virtual void reset() {
+				setWidth(pimpl.textWidget->dispWidth());
+				setHeight(pimpl.textWidget->dispHeight());
+			}
+
+		};
 		typedef BasicButton<Frame, StaticText> FramedStaticButton;
 		typedef BasicButton<Image, StaticText> ImageStaticButton;
 		typedef BasicButton<ExtImage, ExtStaticText> ExtImageStaticButton;

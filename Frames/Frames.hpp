@@ -8,5 +8,7 @@
 #include <GosuEx/Frames/Text.hpp>
 #include <GosuEx/Frames/Image.hpp>
 #include <GosuEx/Frames/Button.hpp>
+#include <GosuEx/Frames/List.hpp>
+#include <GosuEx/Frames/Tooltip.hpp>
 
 #endif
