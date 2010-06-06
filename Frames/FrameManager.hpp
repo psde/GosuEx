@@ -60,9 +60,10 @@ namespace GosuEx {
 			// Call this in ~Window.
 			static void despawn();
 			// Sets
-			void addSet(FrameSet* newSet);
+			void addSet(FrameSet& newSet);
 			void deleteSet(const std::wstring& name);
 			FrameSet& actualSet() const;
+			void changeSet(const std::wstring& newName);
 			// Adding a widget
 			void addWidget(Widget* widget);
 			// Removing a widget, deleting it

@@ -253,3 +253,21 @@ void FrameSet::deactivate() {
 FrameSet& FrameManager::actualSet() const {
 	return *pimpl->activatedSet;
 }
+
+void FrameManager::addSet(FrameSet& set) {
+	pimpl->namedSets[set.name()] = &set;
+}
+
+std::wstring FrameSet::name() const {
+	return pimpl->name;
+}
+
+void FrameManager::deleteSet(const std::wstring& name) {
+	pimpl->namedSets.erase(pimpl->namedSets.find(name));
+}
+
+void FrameManager::changeSet(const std::wstring& newSet) {
+	pimpl->activatedSet->deactivate();
+	pimpl->activatedSet = pimpl->namedSets[newSet];
+	pimpl->activatedSet->activate();
+}
