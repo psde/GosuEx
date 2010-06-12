@@ -20,22 +20,6 @@ namespace GosuEx {
 				pimpl.index = pimpl.visibleElements = 0;
 				pimpl.iterator = pimpl.elements.begin();
 			}
-			
-			/*virtual ~BasicList() {
-				for (std::map<TKey, TElement*>::iterator it = pimpl.elements.begin(); it != pimpl.elements.end(); ++it) {
-					//delete it->second;
-				}
-			}*/
-			/*virtual void update() {
-				if (!shouldUpdate())
-					return;
-				if (!visibleElements() || !elements())
-					return;
-				std::map<TKey, TElement*>::iterator it = pimpl.it;
-				for (std::size_t i = visibleElements(); i && it != pimpl.elements.end(); i--, ++it) {
-					it->second->update();
-				}
-			}*/
 
 			virtual void draw() {
 				if (!shouldDraw())
@@ -47,10 +31,10 @@ namespace GosuEx {
 			}
 
 
-			TElement* createElement(const TKey& key, TElement* element) {
+			TElement& createElement(const TKey& key, TElement* element) {
 				FrameManager::singleton().addWidget(element);
 				addElement(key, element);
-				return element;
+				return *element;
 			}
 
 			void addElement(const TKey& key, TElement* element) {
