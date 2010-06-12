@@ -14,6 +14,8 @@
 namespace GosuEx {
 	namespace Frames {
 
+		typedef Gosu::TextAlign TextAlign;
+
 		template<typename T> class BasicText : public T {
 			struct Impl {
 				boost::shared_ptr<Gosu::Font> font;
@@ -133,20 +135,65 @@ namespace GosuEx {
 			}
 
 		protected:
-			void reset() {
+
+			void setTextImage(Gosu::Image* img) {
+				pimpl.img.reset(img);
+			}
+
+			const Gosu::Image* textImage() { return pimpl.img.get(); }
+
+			virtual void reset() {
 				Gosu::Bitmap bm;
 				if (!text().empty()) {
 					bm.resize(Gosu::textWidth(text(), font()->name(), font()->height(), font()->flags()), font()->height());
 					Gosu::drawText(bm, text(), 0, 0, Colors::white, font()->name(), font()->height(), font()->flags());
 				}
-				pimpl.img.reset(new Gosu::Image(FrameManager::singleton().graphics(), bm));
+				setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), bm));
 				setWidth(pimpl.img->width());
 				setHeight(pimpl.img->height());
+			}
+		};
+		
+		/**
+		* It's necessary to set maxwidth (constructor or later)
+		* otherwise, it'll be crippled.
+		* But, you'll see for yourself.
+		*/
+		template<typename T> class ExtBasicStaticText : public BasicStaticText<T> {
+			struct Impl {
+				unsigned int lineSpacing;
+				Unit maxWidth;
+				TextAlign align;
+			} pimpl;
+		public:
+			ExtBasicStaticText(Unit x, Unit y, Unit z, boost::shared_ptr<Gosu::Font> font, Color color, unsigned int lineSpacing = 0, Unit maxWidth = 42, TextAlign align = Gosu::taLeft):
+				BasicStaticText<T>(x, y, z, font, color)
+			{
+				pimpl.lineSpacing = lineSpacing;
+				pimpl.align = align;
+				pimpl.maxWidth = maxWidth;
+			}
+
+				void setLineSpacing(unsigned int newSpacing) { pimpl.lineSpacing = newSpacing; reset(); }
+				unsigned int lineSpacing() const { return pimpl.lineSpacing; }
+
+				void setTextAlign(TextAlign newAlign) { pimpl.align = newAlign; reset(); }
+				void textAlign() const { return pimpl.align; }
+
+				void setMaxWidth(Unit w) { pimpl.maxWidth = w; reset(); }
+				Unit maxWidth() const { return pimpl.maxWidth; }
+
+		protected:			
+			virtual void reset() {
+				setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), Gosu::createText(text(), font()->name(), font()->height(), pimpl.lineSpacing, static_cast<unsigned int>(pimpl.maxWidth), pimpl.align, font()->flags())));
+				setWidth(textImage()->width());
+				setHeight(textImage()->height());
 			}
 		};
 
 		typedef BasicStaticText<BasicText<Widget> > StaticText;
 		typedef BasicStaticText<ExtBasicText<Widget> > ExtStaticText;
+		typedef ExtBasicStaticText<ExtBasicText<Widget> > ExtExtStaticText;
 		//typedef BasicStaticText<BasicText<Frame> > FramedStaticText;
 		//typedef BasicStaticText<ExtBasicText<ExtFrame> > ExtFramedStaticText;
 		template<typename T> class BasicFontText : public T {

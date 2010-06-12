@@ -69,6 +69,8 @@ namespace GosuEx {
 
 		};
 		typedef BasicButton<Frame, StaticText> FramedStaticButton;
+		typedef BasicButton<ExtFrame, ExtStaticText> ExtFramedStaticButton;
+		typedef BasicButton<ExtFrame, ExtExtStaticText> ExtExtFramedStaticButton;
 		typedef BasicButton<Image, StaticText> ImageStaticButton;
 		typedef BasicButton<ExtImage, ExtStaticText> ExtImageStaticButton;
 	}
