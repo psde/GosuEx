@@ -7,6 +7,7 @@
 
 #include <GosuEx/Frames/Fwd.hpp>
 #include <vector>
+#include <set>
 #include <string>
 #include <Gosu/Color.hpp>
 #include <boost/noncopyable.hpp>
@@ -62,10 +63,7 @@ namespace GosuEx {
 			// Returns the name
 			const std::wstring& name() const;
 			// Returns all children
-			const std::vector<Widget*> children() const;
-			// Returns a child (by index)
-			// Because names are unique, searching by name is done by FrameManager
-			Widget* child(Index index);
+			const std::set<Widget*> children() const;
 			
 			// adds an ALREADY EXISTING widget.
 			// do NOT use this for new widgets. Use createChild instead.

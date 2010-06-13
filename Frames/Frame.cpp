@@ -29,51 +29,68 @@ Frame::Frame(Unit x, Unit y, Unit z, Unit width, Unit height, Color backgroundCo
 
 Frame::~Frame() {}
 
-Unit Frame::dispX() const { return Widget::dispX() - dispBorderWidth(); }
-Unit Frame::dispY() const { return Widget::dispY() - dispBorderWidth(); }
-Unit Frame::dispWidth() const { return Widget::dispWidth() + 2*dispBorderWidth(); }
-Unit Frame::dispHeight() const { return Widget::dispHeight() + 2*dispBorderWidth(); }
+// top left point: x
+//Unit Frame::dispX() const { return Widget::dispX() - dispBorderWidth(); }
+// top left point: y
+//Unit Frame::dispY() const { return Widget::dispY() - dispBorderWidth(); }
+// + dispX: bottom right point: x
+//Unit Frame::dispWidth() const { return Widget::dispWidth() + 2*dispBorderWidth(); }
+// + dispY: bottom right point: y
+//Unit Frame::dispHeight() const { return Widget::dispHeight() + 2*dispBorderWidth(); }
 
 void Frame::draw() {
 	if (!shouldDraw())
 		return;
-	// Draw background
+
+	Unit dX = dispX(), dY = dispY();
+	Unit w = dispWidth(), h = dispHeight(), bW = dispBorderWidth();
+
+	// Background
 	FrameManager::singleton().graphics().drawQuad(
-		dispX(), dispY(), backgroundColor(),
-		dispX()+dispWidth(), dispY(), backgroundColor(),
-		dispX()+dispWidth(), dispY()+dispHeight(), backgroundColor(),
-		dispX(), dispY()+dispHeight(), backgroundColor(),
-		z());
+		dX, dY, backgroundColor(),
+		dX+w, dY, backgroundColor(),
+		dX+w, dY+h, backgroundColor(),
+		dX, dY+h, backgroundColor(),
+		z()
+	);
+
 	// Top
+	Color bc = borderColor();
 	FrameManager::singleton().graphics().drawQuad(
-		dispX()-dispBorderWidth(), dispY()-dispBorderWidth(), borderColor(),
-		dispX()+dispWidth()+dispBorderWidth(), dispY()-dispBorderWidth(), borderColor(),
-		dispX()+dispWidth()+dispBorderWidth(), dispY(), borderColor(),
-		dispX()-dispBorderWidth(), dispY(), borderColor(),
-		z());
+		dX-bW, dY-bW, bc,
+		dX+w+bW, dY-bW, bc,
+		dX+w+bW, dY, bc,
+		dX-bW, dY, bc,
+		z()
+	);
+
 	// Right
 	FrameManager::singleton().graphics().drawQuad(
-		dispX()+dispWidth(), dispY()-dispBorderWidth(), borderColor(),
-		dispX()+dispWidth()+dispBorderWidth(), dispY()-dispBorderWidth(), borderColor(),
-		dispX()+dispWidth()+dispBorderWidth(), dispY()+dispHeight()+dispBorderWidth(), borderColor(),
-		dispX()+dispWidth(), dispY()+dispHeight()+dispBorderWidth(), borderColor(),
-		z());
+		dX+w, dY, bc,
+		dX+w+bW, dY, bc,
+		dX+w+bW, dY+h, bc,
+		dX+w, dY+h, bc,
+		z()
+	);
+
 	// Bottom
 	FrameManager::singleton().graphics().drawQuad(
-		dispX()-dispBorderWidth(), dispY()+dispHeight(), borderColor(),
-		dispX()+dispWidth()+dispBorderWidth(), dispY()+dispHeight(), borderColor(),
-		dispX()+dispWidth()+dispBorderWidth(), dispY()+dispHeight()+dispBorderWidth(), borderColor(),
-		dispX()-dispBorderWidth(), dispY()+dispHeight()+dispBorderWidth(), borderColor(),
-		z());
+		dX-bW, dY+h, bc,
+		dX+w+bW, dY+h, bc,
+		dX+w+bW, dY+h+bW, bc,
+		dX-bW, dY+h+bW, bc,
+		z()
+	);
 
 	// Left
 	FrameManager::singleton().graphics().drawQuad(
-		dispX()-dispBorderWidth(), dispY()-dispBorderWidth(), borderColor(),
-		dispX(), dispY()-dispBorderWidth(), borderColor(),
-		dispX(), dispY()+dispHeight()+dispBorderWidth(), borderColor(),
-		dispX()-dispBorderWidth(), dispY()+dispHeight()+dispBorderWidth(), borderColor(),
-		z());
-		
+		dX-bW, dY, bc,
+		dX, dY, bc,
+		dX, dY+h, bc,
+		dX-bW, dY+h, bc,
+		z()
+	);
+
 	Widget::draw();
 }
 

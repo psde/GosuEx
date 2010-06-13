@@ -9,6 +9,7 @@
 
 /**
 * Don't forget to reset() after doing things with the textWidget
+* Also, textWidget is always z+1. Of course, you can set it afterwards to whatever you like. That's just the default.
 */
 
 namespace GosuEx {
@@ -45,6 +46,7 @@ namespace GosuEx {
 				pimpl.textWidget->setY(dispY()+dispHeight()/2.0);
 				TBack::update();
 			}
+
 
 			virtual void blur() {
 				textWidget().blur();

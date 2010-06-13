@@ -23,10 +23,10 @@ namespace GosuEx {
 
 			virtual ~Frame();
 
-			virtual Unit dispX() const;
-			virtual Unit dispY() const;
-			virtual Unit dispWidth() const;
-			virtual Unit dispHeight() const;
+			//virtual Unit dispX() const;
+			//virtual Unit dispY() const;
+			//virtual Unit dispWidth() const;
+			//virtual Unit dispHeight() const;
 
 			virtual void draw();
 

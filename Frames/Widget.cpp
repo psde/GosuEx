@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <GosuEx/Frames/FrameManager.hpp>
 #include <map>
+#include <set>
 #include <iostream>
 
 using namespace GosuEx::Frames;
@@ -12,7 +13,7 @@ struct Widget::Impl {
 	// Widget's parent
 	Widget* parent;
 	// Widget's children
-	std::vector<Widget*> children;
+	std::set<Widget*> children;
 	// Name
 	std::wstring name;
 	// Coordinates
@@ -110,19 +111,13 @@ Widget* Widget::parent() const { return pimpl->parent; }
 // Returns the name
 const std::wstring& Widget::name() const { return pimpl->name; }
 // Returns all children
-const std::vector<Widget*> Widget::children() const { return pimpl->children; }
-// Returns a child (by index)
-// Because names are unique, searching by name is done by FrameManager
-Widget* Widget::child(Index index) {
-	if (index > children().size())
-		return NULL;
-	return children().at(index);
-}
+const std::set<Widget*> Widget::children() const { return pimpl->children; }
+
 			
 // adds an ALREADY EXISTING widget.
 // do NOT use this for new widgets. Use createChild instead.
 Widget& Widget::addChild(Widget* child) {
-	pimpl->children.push_back(child);
+	pimpl->children.insert(child);
 	child->pimpl->parent = this;
 	return *child;
 }
@@ -146,9 +141,8 @@ Widget& Widget::createChild(Widget* child, const std::wstring& name) {
 // removes the widget. IT IS NOT DEAD YET.
 // Use this to move widgets around.
 void Widget::removeChild(Widget* child) {
-	std::vector<Widget*>::iterator it = std::remove(pimpl->children.begin(), pimpl->children.end(), child);
-	(**it).pimpl->parent = NULL;
-	pimpl->children.erase(it);
+	child->pimpl->parent = NULL;
+	pimpl->children.erase(child);
 }
 		
 // deletes and removes this widget. Use this for memory purposes.

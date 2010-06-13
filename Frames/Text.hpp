@@ -134,13 +134,12 @@ namespace GosuEx {
 				T::draw();
 			}
 
-		protected:
+			const Gosu::Image* textImage() { return pimpl.img.get(); }
 
+		protected:
 			void setTextImage(Gosu::Image* img) {
 				pimpl.img.reset(img);
 			}
-
-			const Gosu::Image* textImage() { return pimpl.img.get(); }
 
 			virtual void reset() {
 				Gosu::Bitmap bm;
