@@ -11,7 +11,7 @@ using namespace GosuEx::Frames;
 FrameManager* FrameManager::gManager;
 
 struct FrameManager::Impl {
-	FrameSet* activatedSet;
+	FrameSet* currentSet;
 	std::map<std::wstring, FrameSet*> namedSets;
 	std::map<std::wstring, boost::shared_ptr<Gosu::Font> > namedFonts;
 	Gosu::Graphics* graphics;
@@ -43,12 +43,12 @@ Widget& FrameSet::root() {
 }
 
 Widget& FrameManager::root() {
-	return singleton().actualSet().root();
+	return singleton().currentSet().root();
 }
 
 
 void FrameManager::deleteWidget(Widget* widget) {
-	actualSet().deleteWidget(widget);
+	currentSet().deleteWidget(widget);
 }
 
 void FrameSet::deleteWidget(Widget* widget) {
@@ -65,9 +65,9 @@ FrameManager::FrameManager(Gosu::Graphics* graphics, Gosu::Input* input, const s
 {
 	pimpl->graphics = graphics;
 	pimpl->input = input;
-	pimpl->activatedSet = new FrameSet(setname);
-	pimpl->namedSets[setname] = pimpl->activatedSet;
-	actualSet().activate();
+	pimpl->currentSet = new FrameSet(setname);
+	pimpl->namedSets[setname] = pimpl->currentSet;
+	currentSet().activate();
 }
 
 FrameSet::FrameSet(const std::wstring& name):
@@ -122,14 +122,14 @@ void FrameSet::addWidget(Widget* widget) {
 }
 
 void FrameManager::addWidget(Widget* widget) {
-	actualSet().addWidget(widget);
+	currentSet().addWidget(widget);
 }
 
 void FrameSet::removeNamedWidget(const std::wstring& name) {
 	pimpl->namedWidgets.erase(pimpl->namedWidgets.find(name));
 }
 void FrameManager::removeNamedWidget(const std::wstring& name) {
-	actualSet().removeNamedWidget(name);
+	currentSet().removeNamedWidget(name);
 }
 
 void FrameSet::addNamedWidget(Widget* widget) {
@@ -137,7 +137,7 @@ void FrameSet::addNamedWidget(Widget* widget) {
 }
 
 void FrameManager::addNamedWidget(Widget* widget) {
-	actualSet().addNamedWidget(widget);
+	currentSet().addNamedWidget(widget);
 }
 
 void FrameManager::addNamedFont(const std::wstring& name, boost::shared_ptr<Gosu::Font> font) {
@@ -177,7 +177,7 @@ void FrameSet::update() {
 }
 
 void FrameManager::update() {
-	actualSet().update();
+	currentSet().update();
 }
 
 void FrameSet::draw() {
@@ -185,7 +185,7 @@ void FrameSet::draw() {
 }
 
 void FrameManager::draw() {
-	actualSet().draw();
+	currentSet().draw();
 }
 
 void FrameSet::buttonUp(Gosu::Button btn) {
@@ -196,7 +196,7 @@ void FrameSet::buttonUp(Gosu::Button btn) {
 }
 
 void FrameManager::buttonUp(Gosu::Button btn) {
-	actualSet().buttonUp(btn);
+	currentSet().buttonUp(btn);
 }
 
 void FrameSet::buttonDown(Gosu::Button btn) {
@@ -207,21 +207,23 @@ void FrameSet::buttonDown(Gosu::Button btn) {
 }
 
 void FrameManager::buttonDown(Gosu::Button btn) {
-	actualSet().buttonDown(btn);
+	currentSet().buttonDown(btn);
 }
 
 Widget& FrameSet::namedWidget(const std::wstring& name) const {
 	if (pimpl->namedWidgets.find(name) == pimpl->namedWidgets.end())
 		throw std::invalid_argument("Widget " + Gosu::narrow(name) + " does not exist");
-	return *pimpl->namedWidgets.at(name);
+	return *pimpl->namedWidgets[name];
 }
 
 Widget& FrameManager::namedWidget(const std::wstring& name) const {
-	return actualSet().namedWidget(name);
+	return currentSet().namedWidget(name);
 }
 
 boost::shared_ptr<Gosu::Font> FrameManager::namedFont(const std::wstring& name) const {
-	return pimpl->namedFonts.at(name);
+	if (pimpl->namedFonts.find(name) == pimpl->namedFonts.end())
+		throw std::invalid_argument("Font " + Gosu::narrow(name) + " does not exist");
+	return pimpl->namedFonts[name];
 }
 
 void FrameSet::enableTextInput(Widget* inputter) {
@@ -229,7 +231,7 @@ void FrameSet::enableTextInput(Widget* inputter) {
 }
 
 void FrameManager::enableTextInput(Widget* inputter) {
-	actualSet().enableTextInput(inputter);
+	currentSet().enableTextInput(inputter);
 }
 
 void FrameSet::disableTextInput(Widget* inputter) {
@@ -237,7 +239,7 @@ void FrameSet::disableTextInput(Widget* inputter) {
 }
 
 void FrameManager::disableTextInput(Widget* inputter) {
-	actualSet().disableTextInput(inputter);
+	currentSet().disableTextInput(inputter);
 }
 
 void FrameSet::activate() {
@@ -250,8 +252,8 @@ void FrameSet::deactivate() {
 		FrameManager::singleton().disableTextInput(pimpl->textInputWidget);
 }
 
-FrameSet& FrameManager::actualSet() const {
-	return *pimpl->activatedSet;
+FrameSet& FrameManager::currentSet() const {
+	return *pimpl->currentSet;
 }
 
 void FrameManager::addSet(FrameSet& set) {
@@ -267,7 +269,7 @@ void FrameManager::deleteSet(const std::wstring& name) {
 }
 
 void FrameManager::changeSet(const std::wstring& newSet) {
-	pimpl->activatedSet->deactivate();
-	pimpl->activatedSet = pimpl->namedSets[newSet];
-	pimpl->activatedSet->activate();
+	pimpl->currentSet->deactivate();
+	pimpl->currentSet = pimpl->namedSets[newSet];
+	pimpl->currentSet->activate();
 }

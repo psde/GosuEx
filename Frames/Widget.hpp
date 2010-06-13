@@ -21,9 +21,6 @@ namespace GosuEx {
 		typedef double Unit;
 		typedef Gosu::Color Color;
 		namespace Colors = Gosu::Colors;
-		typedef std::size_t Index;
-
-		const Unit SQ2 = sqrt(2.0);
 
 		class Widget : public boost::noncopyable {
 			struct Impl;

@@ -62,7 +62,7 @@ namespace GosuEx {
 			// Sets
 			void addSet(FrameSet& newSet);
 			void deleteSet(const std::wstring& name);
-			FrameSet& actualSet() const;
+			FrameSet& currentSet() const;
 			void changeSet(const std::wstring& newName);
 			// Adding a widget
 			void addWidget(Widget* widget);
