@@ -148,6 +148,12 @@ namespace GosuEx {
 			bool clicked(Gosu::Button btn);
 
 			boost::function<void(Widget*)> onBlur, onHover;
+
+			// Stop reading here
+			// Seriously
+
+			// Used for lists. Don't touch it.
+			void setParentLikeANinja(Widget* daddy);
 		protected:
 			virtual bool shouldDraw() const;
 

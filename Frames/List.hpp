@@ -76,15 +76,19 @@ namespace GosuEx {
 			void addElement(const TKey& key, TElement* element) {
 				pimpl.elements.insert(std::pair<TKey, TElement*>(key, element));
 				element->setParent(this);
-				// Remove it because children are just annoying
+				// Remove him from the family. For science. You monster.
 				removeChild(element);
+				// But tell him his parents are still alive.
+				// Another reference: You gotta be sneaky, Charlie. Sneaky.
+				element->setParentLikeANinja(this);
+
 				element->setX(dispX()+dispWidth()/2);
 				element->setRelX(0.5);
 				element->setWidth(dispWidth());
 				element->hide();
 				setIndex(index());
 			}
-			
+
 			void removeElement(const TKey& key) {
 				pimpl.elements.erase(key);
 			}

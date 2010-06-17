@@ -301,6 +301,10 @@ bool Widget::clicked(Gosu::Button btn) {
 	return pimpl->clicked.find(btn) != pimpl->clicked.end() && pimpl->clicked[btn];
 }
 
+void Widget::setParentLikeANinja(Widget* mommy) {
+	pimpl->parent = mommy;
+}
+
 void GosuEx::Frames::dumpWidgets(Widget* root, unsigned int depth) {
 	std::string pre;
 	for (unsigned int i = 0; i < depth; i++)
