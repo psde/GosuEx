@@ -8,8 +8,6 @@
 #include <Gosu/Image.hpp>
 #include <Gosu/Font.hpp>
 #include <Gosu/TextInput.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
 
 namespace GosuEx {
 	namespace Frames {
@@ -111,6 +109,10 @@ namespace GosuEx {
 			BasicStaticText(Unit x, Unit y, Unit z, boost::shared_ptr<Gosu::Font> font, Color color):
 				T(x, y, z, font, color)
 			{
+			}
+
+			virtual ~BasicStaticText() {
+				pimpl.img.reset();
 			}
 
 			virtual void setFont(boost::shared_ptr<Gosu::Font> newFont) {

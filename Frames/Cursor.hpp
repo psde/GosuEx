@@ -6,7 +6,6 @@
 #include <GosuEx/Frames/Frame.hpp>
 #include <GosuEx/Frames/FrameManager.hpp>
 #include <GosuEx/Frames/Image.hpp>
-#include <boost/shared_ptr.hpp>
 #include <Gosu/Graphics.hpp>
 
 namespace GosuEx {

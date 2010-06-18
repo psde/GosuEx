@@ -10,9 +10,6 @@
 #include <set>
 #include <string>
 #include <Gosu/Color.hpp>
-#include <boost/noncopyable.hpp>
-#include <boost/function.hpp>
-#include <boost/scoped_ptr.hpp>
 #include <Gosu/Input.hpp>
 
 namespace GosuEx {

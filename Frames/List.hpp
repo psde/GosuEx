@@ -4,12 +4,16 @@
 #include <GosuEx/Frames/Fwd.hpp>
 #include <GosuEx/Frames/Widget.hpp>
 #include <GosuEx/Frames/FrameManager.hpp>
-#include <boost/foreach.hpp>
 #include <Gosu/Math.hpp>
+
+/**
+* Lists are a special kind of widget.
+* Do not attach any children to them.
+*/
 
 namespace GosuEx {
 	namespace Frames {
-		template<typename TBack, typename TKey, typename TElement> class BasicList : public TBack {
+		template<typename TKey, typename TElement> class BasicList : public Widget {
 			struct Impl {
 				typename std::map<TKey, TElement*> elements;
 				typename std::map<TKey, TElement*>::iterator iterator;
@@ -18,7 +22,7 @@ namespace GosuEx {
 			} pimpl;
 		public:
 			BasicList(Unit x, Unit y, Unit z, Unit width, Unit height):
-				TBack(x, y, z, width, height)
+				Widget(x, y, z, width, height)
 			{
 				pimpl.index = pimpl.visibleElements = 0;
 				pimpl.iterator = pimpl.elements.begin();
@@ -30,41 +34,11 @@ namespace GosuEx {
 
 				if (dispX() >= 0 && dispY() >= 0)
 					FrameManager::singleton().graphics().beginClipping(static_cast<unsigned int>(dispX()), static_cast<unsigned int>(dispY()), static_cast<unsigned int>(dispWidth()), static_cast<unsigned int>(dispHeight()));
-				std::map<TKey, TElement*>::iterator it = pimpl.iterator;
-				for (std::size_t i = visibleElements(); i && it != pimpl.elements.end(); i--, ++it) {
-					it->second->draw();
-				}
+				
+				Widget::draw();
 
 				if (dispX() >= 0 && dispY() >= 0)
 					FrameManager::singleton().graphics().endClipping();
-				TBack::draw();
-			}
-
-			virtual void update() {
-				std::map<TKey, TElement*>::iterator it = pimpl.iterator;
-				for (std::size_t i = visibleElements(); i && it != pimpl.elements.end(); i--, ++it) {
-					it->second->update();
-				}
-
-				TBack::update();
-			}
-
-			virtual void buttonUp(Gosu::Button btn) {
-				std::map<TKey, TElement*>::iterator it = pimpl.iterator;
-				for (std::size_t i = visibleElements(); i && it != pimpl.elements.end(); i--, ++it) {
-					it->second->buttonUp(btn);
-				}
-
-				TBack::buttonUp(btn);
-			}
-
-			virtual void buttonDown(Gosu::Button btn) {
-				std::map<TKey, TElement*>::iterator it = pimpl.iterator;
-				for (std::size_t i = visibleElements(); i && it != pimpl.elements.end(); i--, ++it) {
-					it->second->buttonDown(btn);
-				}
-
-				TBack::buttonDown(btn);
 			}
 
 			TElement& createElement(const TKey& key, TElement* element) {
@@ -76,12 +50,6 @@ namespace GosuEx {
 			void addElement(const TKey& key, TElement* element) {
 				pimpl.elements.insert(std::pair<TKey, TElement*>(key, element));
 				element->setParent(this);
-				// Remove him from the family. For science. You monster.
-				removeChild(element);
-				// But tell him his parents are still alive.
-				// Another reference: You gotta be sneaky, Charlie. Sneaky.
-				element->setParentLikeANinja(this);
-
 				element->setX(dispX()+dispWidth()/2);
 				element->setRelX(0.5);
 				element->setWidth(dispWidth());
@@ -122,8 +90,11 @@ namespace GosuEx {
 				pimpl.index = newIndex;
 
 				// Set the iterator to our new position, floor-ed
-				for (std::size_t i = static_cast<std::size_t>(newIndex); i; i--)
+				for (std::size_t i = static_cast<std::size_t>(newIndex); i && pimpl.iterator != pimpl.elements.end(); i--)
 					pimpl.iterator++;
+
+				if (pimpl.iterator == pimpl.elements.end())
+					return;
 
 				pimpl.visibleElements = 0;
 				
@@ -139,7 +110,7 @@ namespace GosuEx {
 			}
 
 			void scrollBy(Unit offset) {
-				setIndex(index()+max(-index(), offset));
+				setIndex(index()+std::max(-index(), offset));
 			}
 
 			template<class Compare> void sort(Compare comp) {
@@ -148,6 +119,9 @@ namespace GosuEx {
 
 public:
 			void reset() {
+				if (pimpl.iterator == pimpl.elements.end())
+					return;
+
 				Unit i;
 				Unit oy = dispY()-modf(index(), &i)*pimpl.iterator->second->dispHeight();
 				

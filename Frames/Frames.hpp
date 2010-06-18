@@ -1,6 +1,7 @@
 #ifndef GOSUEX_FRAMES_FRAMES_HPP
 #define GOSUEX_FRAMES_FRAMES_HPP
 
+#include <GosuEx/Frames/Fwd.hpp>
 #include <GosuEx/Frames/FrameManager.hpp>
 #include <GosuEx/Frames/Widget.hpp>
 #include <GosuEx/Frames/Frame.hpp>

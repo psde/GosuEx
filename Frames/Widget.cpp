@@ -72,6 +72,11 @@ Widget::~Widget() {
 		delete it;
 		it = NULL;
 	}
+	pimpl->children.clear();
+	pimpl->click.clear();
+	pimpl->btnDown.clear();
+	pimpl->btnUp.clear();
+	pimpl->clicked.clear();
 }
 
 // Coordinates

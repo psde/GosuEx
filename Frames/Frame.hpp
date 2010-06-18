@@ -4,9 +4,8 @@
 /**
  * Basic Frame.
 */
-
+#include <GosuEx/Frames/Fwd.hpp>
 #include <GosuEx/Frames/Widget.hpp>
-#include <boost/scoped_ptr.hpp>
 
 namespace GosuEx {
 	namespace Frames {

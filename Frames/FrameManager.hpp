@@ -7,8 +7,6 @@
 #include <vector>
 #include <string>
 #include <map>
-#include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
 // Memory allocation and stuff.
 
 namespace GosuEx {
