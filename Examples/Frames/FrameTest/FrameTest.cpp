@@ -1,3 +1,4 @@
+#include <GosuEx/Frames/Fwd.hpp>
 #include <Gosu/Gosu.hpp>
 #include <Gosu/AutoLink.hpp>
 #include <GosuEx/Frames/Frames.hpp>
@@ -7,7 +8,7 @@
 
 using namespace GosuEx::Frames;
 
-typedef BasicList<Frame, int, FramedStaticButton> MyList;
+typedef BasicList<int, FramedStaticButton> MyList;
 
 namespace z {
 	enum zOrder {
@@ -65,25 +66,33 @@ public:
 		FrameManager::root().createChild(b = new FramedStaticButton(200, 200, z::zSomeOtherImbaElement, 250, 80, myFont, L"This is an annoying button.", Colors::black, Colors::white, Colors::blue, 2.0));
 		MyList* l;
 		FrameManager::root().createChild(l = new MyList(300, 300, z::zSomeElement, 300, 200), L"list");
-		l->addElement(0, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Null", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(1, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Un", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(2, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Two", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(3, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Three", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(4, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Quattre", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(5, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Cinq", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(6, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Sechs", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(7, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Sieben", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(8, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Acht", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(9, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Neun", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(10, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Zehn", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(11, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Eleven", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(12, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Douze", Colors::black, Colors::white, Colors::black, 2.0));
-		l->addElement(13, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Drölf", Colors::black, Colors::white, Colors::black, 2.0));
-		l->setBackgroundColor(Gosu::Colors::none);
+		
+		l->createElement(0, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Null", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(1, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Un", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(2, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Two", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(3, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Three", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(4, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Quattre", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(5, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Cinq", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(6, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Sechs", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(7, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Sieben", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(8, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Acht", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(9, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Neun", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(10, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Zehn", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(11, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Eleven", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(12, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Douze", Colors::black, Colors::white, Colors::black, 2.0));
+		l->createElement(13, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Drölf", Colors::black, Colors::white, Colors::black, 2.0));
+		//*/
+		//l->setBackgroundColor(Gosu::Colors::none);
 		l->reset();
 		l->setIndex(0);
-		l->setBorderColor(Colors::fuchsia);
-		l->setBorderWidth(2.0);
+		//l->setBorderColor(Colors::fuchsia);
+		//l->setBorderWidth(2.0);
+	}
+
+	~FrameTestWindow() {
+		delete fc;
+		myFont.reset();
+		FrameManager::despawn();
 	}
 
 	void update() {
@@ -116,13 +125,13 @@ public:
 			l.reset();
 		}
 	}
-
-	~FrameTestWindow() {
-		FrameManager::despawn();
-	}
 };
 
 int main(int argc, char* argv[]) {
-	FrameTestWindow win;
-	win.show();
+#if _MSC_VER >= 1600
+	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+#endif
+	FrameTestWindow* win = new FrameTestWindow();
+	win->show();
+	delete win;
 }
