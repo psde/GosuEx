@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <boost/foreach.hpp>
+#include <Gosu/IO.hpp>
 
 namespace GosuEx {
 		namespace Data {
