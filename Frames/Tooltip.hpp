@@ -45,8 +45,8 @@ namespace GosuEx {
 			virtual void update() {
 				if (!visible())
 					return;
-				setX(max(0.0, parent()->dispX()+parent()->dispWidth()/2.0 - dispWidth()/2 + offsetX()));
-				setY(max(0.0, parent()->dispY()+parent()->dispHeight() - dispHeight()/2 + offsetY()));
+				setX(std::max(0.0, parent()->dispX()+parent()->dispWidth()/2.0 - dispWidth()/2 + offsetX()));
+				setY(std::max(0.0, parent()->dispY()+parent()->dispHeight() - dispHeight()/2 + offsetY()));
 				if (dispX()+dispWidth() > FrameManager::singleton().graphics().width()) {
 					setX(FrameManager::singleton().graphics().width()-dispWidth());
 				}
