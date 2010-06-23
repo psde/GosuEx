@@ -287,6 +287,9 @@ namespace GosuEx {
 				if (!shouldDraw())
 					return;
 				T::draw();
+
+				if (!enabledTextInput())
+					return;
 				FrameManager::singleton().graphics().drawQuad(
 					dispX()+font()->textWidth(text().substr(0, pimpl.input.selectionStart()), factorX()), dispY(), selectionColor(),
 					dispX()+font()->textWidth(text().substr(0, pimpl.input.caretPos()), factorX()), dispY(), selectionColor(),

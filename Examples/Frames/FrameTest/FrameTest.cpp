@@ -81,6 +81,9 @@ public:
 		l->createElement(11, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Eleven", Colors::black, Colors::white, Colors::black, 2.0));
 		l->createElement(12, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Douze", Colors::black, Colors::white, Colors::black, 2.0));
 		l->createElement(13, new FramedStaticButton(0, 0, z::zSomeOtherImbaElement, 0, 0, myFont, L"Drölf", Colors::black, Colors::white, Colors::black, 2.0));
+		// Show people the magic of setBtnDownHandler!
+		l->setButtonUpHandler(Gosu::msWheelUp, boost::bind(&MyList::scrollBy, l, -0.5));
+		l->setButtonUpHandler(Gosu::msWheelDown, boost::bind(&MyList::scrollBy, l, -0.5));
 		//*/
 		//l->setBackgroundColor(Gosu::Colors::none);
 		l->reset();
@@ -124,6 +127,12 @@ public:
 			l.scrollBy(0.1);
 			l.reset();
 		}
+
+		FrameManager::singleton().buttonUp(btn);
+	}
+
+	void buttonDown(Gosu::Button btn) {
+		FrameManager::singleton().buttonDown(btn);
 	}
 };
 
