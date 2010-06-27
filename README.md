@@ -2,13 +2,13 @@ EXTENSIONS
 ==========
 <dl>
 <dt>Data</dt>
-<dd>Data is an easy interface to store digital data (i.e. savegames or other things). It provides functionality to compress the serialized data using zlib. The stored data can then either be sent with a Gosu::Socket or be stored in a file. For  file storages there are predefined functions available. This is a library based extension.</dd>
-<dt>FpsCounter</dt>
-<dd>Easy to use header-only fps counter</dd>
+<dd>Data is an easy interface to store digital data (i.e. savegames or other things). It provides functionality to compress the serialized data using zlib. The stored data can then either be sent with a Gosu::Socket or be stored in a file. For file storages there are predefined functions available. Library.</dd>
+<dt>FPSCounter</dt>
+<dd>Easy to use FPS counter class. Header-only.</dd>
 <dt>Shader</dt>
-<dd>Provides simple ways to load, run and debug shaders with gosu, header-only</dd>
+<dd>Provides simple ways to load, run and debug shaders with gosu. Header-only</dd>
 <dt>Frames</dt>
-<dd>Widgets for user interfaces. Easy to use (real now!). Not finished yet but quite stable and working.</dd>
+<dd>Widgets that can be used to build an user interface pretty fast and pretty easy in Gosu. Library.</dd>
 </dl>
 
 EXAMPLES

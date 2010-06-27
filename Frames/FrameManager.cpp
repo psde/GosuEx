@@ -60,11 +60,11 @@ void FrameSet::deleteWidget(Widget* widget) {
 	delete widget;
 }
 
-FrameManager::FrameManager(Gosu::Graphics* graphics, Gosu::Input* input, const std::wstring& setname):
+FrameManager::FrameManager(Gosu::Graphics& graphics, Gosu::Input& input, const std::wstring& setname):
 	pimpl(new Impl)
 {
-	pimpl->graphics = graphics;
-	pimpl->input = input;
+	pimpl->graphics = &graphics;
+	pimpl->input = &input;
 	pimpl->currentSet = new FrameSet(setname);
 	pimpl->namedSets[setname] = pimpl->currentSet;
 	currentSet().activate();
@@ -100,7 +100,7 @@ FrameSet::~FrameSet() {
 	pimpl->textInputWidget = NULL;
 }
 
-bool FrameManager::spawn(Gosu::Graphics* graphics, Gosu::Input* input, const std::wstring& setname) {
+bool FrameManager::spawn(Gosu::Graphics& graphics, Gosu::Input& input, const std::wstring& setname) {
 	if (FrameManager::gManager != NULL)
 		return false;
 	FrameManager::gManager = new FrameManager(graphics, input, setname);

@@ -46,7 +46,7 @@ namespace GosuEx {
 			boost::scoped_ptr<Impl> pimpl;
 			static FrameManager* gManager;
 
-			FrameManager(Gosu::Graphics* graphics, Gosu::Input* input, const std::wstring& setname);
+			FrameManager(Gosu::Graphics& graphics, Gosu::Input& input, const std::wstring& setname);
 			~FrameManager();
 		public:
 			// Get the singleton
@@ -54,7 +54,7 @@ namespace GosuEx {
 			// Get the root widget
 			static Widget& root();
 			// Spawn the manager. This is required before any action is performed.
-			static bool spawn(Gosu::Graphics* graphics, Gosu::Input* input, const std::wstring& setname = L"default");
+			static bool spawn(Gosu::Graphics& graphics, Gosu::Input& input, const std::wstring& setname = L"default");
 			// Call this in ~Window.
 			static void despawn();
 			// Sets
