@@ -1,146 +1,108 @@
 #ifndef GOSUEX_FPSCOUNTER_HPP
 #define GOSUEX_FPSCOUNTER_HPP
 
-#include <Gosu/Graphics.hpp>
-#include <Gosu/Math.hpp>
-#include <Gosu/Color.hpp>
-#include <Gosu/Timing.hpp>
-#include <Gosu/Font.hpp>
-
-#include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/lexical_cast.hpp>
-
+#include <boost/format.hpp>
+#include <boost/foreach.hpp>
+#include <Gosu/Font.hpp>
+#include <Gosu/Timing.hpp>
+#include <Gosu/Graphics.hpp>
 #include <deque>
 
-namespace GosuEx
-{
-	/**
-	* A simple FPS counter with a simple graph.
-	* To use it FpsCounter::draw() and FpsCounter::updateFPS() have to be placed
-	* at the end of the Gosu::Window::draw() method IN THIS ORDER.
-	*/
-	class FpsCounter {
-	private:
-	struct FpsPoint {
-			FpsPoint(double fps, bool landmark = false) {
-				this->fps = fps;
-				this->landmark = landmark;
-			}
-
-			double fps;
-			bool landmark;
-		};
-
-		Gosu::Graphics *graphics;
-
-		int x, y, z, width, height;
-
-		int logtime;
-
-		std::deque<FpsPoint> fpslist;
-
-		boost::shared_ptr<Gosu::Font> font;
-
-		
-		Gosu::Color boxColor, lineColor, lineLandmarkColor;
-
-		double updateInterval, accum, timeleft;
-		int frames, lastFrameCompleted;
-	public:	
-		double fps;
-
-		FpsCounter(int x, int y, int z, int width, int height, Gosu::Graphics *graphics, boost::shared_ptr<Gosu::Font> font, float updateInterval = 0.03f) {
-			this->font = font;
-			this->boxColor = Gosu::Color(255, 255, 255, 255);
-			this->lineColor = Gosu::Color(220, 255, 255, 255);
-			this->lineLandmarkColor = Gosu::Color(65, 255, 255, 255);
-
-			this->timeleft = updateInterval;
-			this->accum = 0.0;
-			this->frames = 0;
-			this->lastFrameCompleted = Gosu::milliseconds();
-			this->logtime = Gosu::milliseconds();
-			this->fps = 0;
-			this->graphics = graphics;
-			this->x = x;
-			this->y = y;
-			this->z = z;
-			this->width = width;
-			this->height = height;
-			this->updateInterval = updateInterval;
+namespace GosuEx {
+	class FPSCounter {
+		struct Impl {
+			// FPS, FPS-as-of-now, maxfps-in-this-query
+			int fps, accum, maxFPS;
+			// average fps over the last WIDTH units.
+			double avg;
+			// Gosu::milliseconds of the last collection
+			unsigned long lastUpdate;
+			// Coordinates, dimension
+			double x, y, z, width, height;
+			// Font
+			boost::shared_ptr<Gosu::Font> font;
+			// Color; average line color
+			Gosu::Color fpsColor, textColor, avgColor;
+			// Graphics to draw graphics
+			Gosu::Graphics* graphics;
+			// History. Each unit is one entry.
+			std::deque<int> fpsHistory;
+			// Should we even draw the fps needles?
+			bool drawFPSPlot;
+		} pimpl;
+	public:
+		// Constructor.
+		FPSCounter(double x, double y, double z, double width, double height, Gosu::Graphics& graphics, boost::shared_ptr<Gosu::Font> font, Gosu::Color textColor, Gosu::Color fpsColor, Gosu::Color avgColor, bool drawFPSPlot = true) {
+			pimpl.x = x;
+			pimpl.y = y;
+			pimpl.z = z;
+			pimpl.width = width;
+			pimpl.height = height;
+			pimpl.font = font;
+			pimpl.textColor = textColor;
+			pimpl.fpsColor = fpsColor;
+			pimpl.avgColor = avgColor;
+			pimpl.graphics = &graphics;
+			pimpl.fps = pimpl.accum = pimpl.maxFPS = 1;
+			pimpl.avg = 0;
+			pimpl.lastUpdate = Gosu::milliseconds();
+			pimpl.drawFPSPlot = drawFPSPlot;
 		}
-        
-		// this yields wrong results if not called on the end of the draw() method, so maybe we can just 
-		// do the calulation in FpsCounter::draw (user has only one function to call every time, not two)
-		// on the other side: what about user that want to calculate but not want to show them? Hmm.. think about that
-		void updateFPS() {
-			// based on http://www.unifycommunity.com/wiki/index.php?title=FramesPerSecond
-			double deltaTime = Gosu::milliseconds() - lastFrameCompleted;
-			timeleft -= deltaTime/1000.0;
-			accum += 1000.0/deltaTime;
-			frames++;
-			fps = Gosu::round(accum/frames);
 
-			if(timeleft <= 0.0) {
-				bool landmark = false;
-				if(Gosu::milliseconds() > static_cast<unsigned long>(logtime + 1000)) {
-					logtime = Gosu::milliseconds();
-					landmark = true;
+		~FPSCounter() {}
+
+		void update() {
+			pimpl.accum++;
+			if (Gosu::milliseconds() - pimpl.lastUpdate > 1000) {
+				// Stuff it back. Except if it's the first one.
+				if (pimpl.fps != 0 || pimpl.fpsHistory.size()) {
+					pimpl.fpsHistory.push_back(pimpl.fps);
+					if (pimpl.fpsHistory.size() > static_cast<std::size_t>(pimpl.width)-2)
+						pimpl.fpsHistory.pop_front();
+					double avg = 0;
+					pimpl.maxFPS = 0;
+					BOOST_FOREACH(int t, pimpl.fpsHistory) {
+						avg += t;
+						pimpl.maxFPS = std::max(pimpl.maxFPS, t);
+					}
+					pimpl.avg = avg/static_cast<double>(pimpl.fpsHistory.size());
 				}
-				fpslist.push_back(FpsPoint(fps, landmark));
-				frames = 0;
-				accum = 0;
-				timeleft = updateInterval;
+				// Because secondly based 
+				pimpl.fps = pimpl.accum;
+				pimpl.accum = 0;
+				pimpl.lastUpdate = Gosu::milliseconds();
 			}
-
-			while(fpslist.size() > static_cast<unsigned int>(width+1))
-				fpslist.pop_front();
 		}
 
 		void draw() {
-			lastFrameCompleted = Gosu::milliseconds();
+			// Draw the borders.
+			pimpl.graphics->drawLine(pimpl.x, pimpl.y, pimpl.fpsColor, pimpl.x+pimpl.width, pimpl.y, pimpl.fpsColor, pimpl.z);
+			pimpl.graphics->drawLine(pimpl.x, pimpl.y+pimpl.height, pimpl.fpsColor, pimpl.x+pimpl.width, pimpl.y+pimpl.height, pimpl.fpsColor, pimpl.z);
+			pimpl.graphics->drawLine(pimpl.x, pimpl.y, pimpl.fpsColor, pimpl.x, pimpl.y+pimpl.height, pimpl.fpsColor, pimpl.z);
+			pimpl.graphics->drawLine(pimpl.x+pimpl.width, pimpl.y, pimpl.fpsColor, pimpl.x+pimpl.width, pimpl.y+pimpl.height, pimpl.fpsColor, pimpl.z);
+			
 
-			// draw box 
-			graphics->drawLine(x, y, boxColor, x + width, y, boxColor, z); // ->
-			graphics->drawLine(x + width, y, boxColor, x + width, y + height, boxColor, z); // v
-			graphics->drawLine(x, y + height, boxColor, x + width, y + height, boxColor, z); // <-
-			graphics->drawLine(x, y, boxColor, x, y + height, boxColor, z); // ^
-
-			// draw fps 
-			font->draw(L"Cur: " + boost::lexical_cast<std::wstring>(fps), x + 4, y + 2, z, 1, 1, boxColor);
-
-			// draw graph, if we are on it, calculate avg fps 
-			double avg = 0;
-			int avgCount = 0;
-			if (fpslist.size() > 2) {
-				double oldVal = Gosu::clamp(fpslist.at(0).fps, 0.0, static_cast<double>(height));
-				for(unsigned int i=1; i < fpslist.size() - 1; i++)
-				{
-					
-					double newVal = Gosu::clamp(fpslist.at(i).fps * -1 + height, 0.0, static_cast<double>(height));
-					
-					graphics->drawLine(x + (width - i) - 1, y + oldVal, lineColor, x + (width - i), y + newVal, lineColor, z);
-					
-					if(fpslist.at(i).landmark) {
-						graphics->drawLine(x, y + height, lineLandmarkColor, x+1, y + newVal, lineLandmarkColor, z);
-					}
-
-					// ignore negative fps, only happens a few times after init
-					if(fpslist.at(i).fps > 0) {
-						avg += fpslist.at(i).fps;
-						avgCount++;
-					}
-
-					oldVal = newVal;
+			if (pimpl.drawFPSPlot) {
+				// Draw the "spikes"
+				double x = pimpl.x+pimpl.width-1;
+				BOOST_FOREACH(int t, pimpl.fpsHistory) {
+					pimpl.graphics->drawLine(x, pimpl.y+pimpl.height*(1.0-static_cast<double>(t)/static_cast<double>(pimpl.maxFPS)), pimpl.fpsColor, x, pimpl.y+pimpl.height, pimpl.fpsColor, pimpl.z);
+					--x;
 				}
-				avg = avg / avgCount;
 
-				// maybe we should round the avg fps instead of just taking the first 4 chars
-				font->draw(L"Avg: " + boost::lexical_cast<std::wstring>(avg).substr(0,4), x+4, y+14, z, 1, 1, boxColor);
+				// And the average line.
+				pimpl.graphics->drawLine(pimpl.x, pimpl.y+pimpl.height*(1.0-pimpl.avg/static_cast<double>(pimpl.maxFPS)), pimpl.avgColor, pimpl.x+pimpl.width, pimpl.y+pimpl.height*(1.0-pimpl.avg/static_cast<double>(pimpl.maxFPS)), pimpl.avgColor, pimpl.z);
 			}
+
+			// The font
+			pimpl.font->drawRel((boost::wformat(L"Cur: %2.1f") % pimpl.fps).str(), pimpl.x+pimpl.width/2.0, pimpl.y+pimpl.height/2.0, pimpl.z, 0.5, 1.0, 1.0, 1.0, pimpl.textColor);
+			pimpl.font->drawRel((boost::wformat(L"Avg: %2.1f") % pimpl.avg).str(), pimpl.x+pimpl.width/2.0, pimpl.y+pimpl.height/2.0, pimpl.z, 0.5, 0, 1.0, 1.0, pimpl.textColor);
 		}
+		
+		int fps() const { return pimpl.fps; }
+		double avg() const { return pimpl.avg; }
+		int maxFPS() const { return pimpl.maxFPS; }
 	};
 }
-
 #endif
