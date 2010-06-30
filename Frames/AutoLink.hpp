@@ -1,6 +1,6 @@
 #ifdef _MSC_VER
-#ifndef GOSUEX_DATA_AUTOLINK_HPP
-#define GOSUEX_DATA_AUTOLINK_HPP
+#ifndef GOSUEX_FRAMES_AUTOLINK_HPP
+#define GOSUEX_FRAMES_AUTOLINK_HPP
 
 #ifdef NDEBUG
 #pragma comment(lib, "Frames.lib")
