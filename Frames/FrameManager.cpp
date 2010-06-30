@@ -174,6 +174,10 @@ void FrameSet::update() {
 			pimpl->highlightedWidget->hover();
 		}
 	}
+	else if (possibleHL == NULL && pimpl->highlightedWidget) {
+		pimpl->highlightedWidget->blur();
+		pimpl->highlightedWidget = NULL;
+	}
 }
 
 void FrameManager::update() {
