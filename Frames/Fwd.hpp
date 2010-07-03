@@ -35,7 +35,6 @@ namespace GosuEx {
 		class SquareCursor;
 		class TriangleCursor;
 		class ExtFrame;
-
 		class FrameManager;
 	}
 }

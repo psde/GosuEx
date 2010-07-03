@@ -5,6 +5,7 @@
 #include <GosuEx/Frames/Widget.hpp>
 #include <GosuEx/Frames/FrameManager.hpp>
 #include <Gosu/Math.hpp>
+#include <cmath>
 
 /**
 * Lists are a special kind of widget.
@@ -104,7 +105,7 @@ namespace GosuEx {
 				pimpl.visibleElements = 0;
 				
 				Unit i;
-				Unit h = -modf(newIndex, &i)*pimpl.iterator->second->dispHeight();
+				Unit h = -std::modf(newIndex, &i)*pimpl.iterator->second->dispHeight();
 				
 				for (std::map<TKey, TElement*>::iterator it = pimpl.iterator; it != pimpl.elements.end(); ++it) {
 					pimpl.visibleElements++;
@@ -128,7 +129,7 @@ public:
 					return;
 
 				Unit i;
-				Unit oy = this->dispY()-modf(index(), &i)*pimpl.iterator->second->dispHeight();
+				Unit oy = this->dispY()-std::modf(index(), &i)*pimpl.iterator->second->dispHeight();
 				
 				for (std::map<TKey, TElement*>::iterator it = pimpl.elements.begin(); it != pimpl.elements.end(); ++it)
 					it->second->hide();

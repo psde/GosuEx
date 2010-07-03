@@ -43,8 +43,8 @@ namespace GosuEx {
 			}
 
 			virtual void update() {
-				pimpl.textWidget->setX(dispX()+dispWidth()/2.0);
-				pimpl.textWidget->setY(dispY()+dispHeight()/2.0);
+				pimpl.textWidget->setX(this->dispX()+this->dispWidth()/2.0);
+				pimpl.textWidget->setY(this->dispY()+this->dispHeight()/2.0);
 				TBack::update();
 			}
 
