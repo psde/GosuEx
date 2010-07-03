@@ -79,23 +79,23 @@ namespace GosuEx {
 
 			virtual void setAllTextColors(Color newColor) { 
 				BasicText::setAllTextColors(newColor);
-				setDisabledTextColor(newColor);
-				setHighlightedTextColor(newColor);
-				setDisabledHighlightTextColor(newColor);
+				this->setDisabledTextColor(newColor);
+				this->setHighlightedTextColor(newColor);
+				this->setDisabledHighlightTextColor(newColor);
 			}
 
 			virtual Color textColor() const {
-				if (enabled()) {
-					if (highlighted())
-						return highlightedTextColor();
+				if (this->enabled()) {
+					if (this->highlighted())
+						return this->highlightedTextColor();
 					else
-						return defaultTextColor();
+						return this->defaultTextColor();
 				}
 				else {
-					if (highlighted())
-						return disabledHighlightTextColor();
+					if (this->highlighted())
+						return this->disabledHighlightTextColor();
 					else
-						return disabledTextColor();
+						return this->disabledTextColor();
 				}
 			}
 		};
@@ -117,12 +117,12 @@ namespace GosuEx {
 
 			virtual void setFont(boost::shared_ptr<Gosu::Font> newFont) {
 				T::setFont(newFont);
-				reset();
+				this->reset();
 			}
 
 			virtual void setText(const std::wstring& newText) {
 				pimpl.text = newText;
-				reset();
+				this->reset();
 			}
 
 			virtual std::wstring text() const {
@@ -149,9 +149,9 @@ namespace GosuEx {
 					bm.resize(Gosu::textWidth(text(), font()->name(), font()->height(), font()->flags()), font()->height());
 					Gosu::drawText(bm, text(), 0, 0, Colors::white, font()->name(), font()->height(), font()->flags());
 				}
-				setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), bm));
-				setWidth(pimpl.img->width());
-				setHeight(pimpl.img->height());
+				this->setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), bm));
+				this->setWidth(pimpl.img->width());
+				this->setHeight(pimpl.img->height());
 			}
 		};
 		
@@ -186,9 +186,9 @@ namespace GosuEx {
 
 		protected:			
 			virtual void reset() {
-				setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), Gosu::createText(text(), font()->name(), font()->height(), pimpl.lineSpacing, static_cast<unsigned int>(pimpl.maxWidth), pimpl.align, font()->flags())));
-				setWidth(textImage()->width());
-				setHeight(textImage()->height());
+				this->setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), Gosu::createText(text(), font()->name(), font()->height(), pimpl.lineSpacing, static_cast<unsigned int>(pimpl.maxWidth), pimpl.align, font()->flags())));
+				this->setWidth(textImage()->width());
+				this->setHeight(textImage()->height());
 			}
 		};
 
@@ -209,24 +209,24 @@ namespace GosuEx {
 
 			virtual void setFont(boost::shared_ptr<Gosu::Font> newFont) {
 				T::setFont(newFont);
-				reset();
+				this->reset();
 			}
 
 			virtual std::wstring text() const { return pimpl.text; }
 			void setText(const std::wstring& newText) { 
 				pimpl.text = newText;
-				reset();
+				this->reset();
 			}
 
 			void draw() {
 				if (!shouldDraw())
 					return;
-				font()->draw(text(), dispX(), dispY(), z(), factorX(), factorY(), textColor());
+				this->font()->draw(text(), dispX(), dispY(), z(), factorX(), factorY(), textColor());
 			}
 		protected:
 			void reset() {
-				setWidth(Gosu::textWidth(text(), font()->name(), font()->height(), font()->flags()));
-				setHeight(font()->height());
+				this->setWidth(Gosu::textWidth(text(), font()->name(), font()->height(), font()->flags()));
+				this->setHeight(font()->height());
 			}
 		};
 
@@ -245,9 +245,9 @@ namespace GosuEx {
 			BasicTextInput(Unit x, Unit y, Unit z, boost::shared_ptr<Gosu::Font> font, Color color, Color caretColor = Colors::none, Unit caretWidth = 0.0, Color selectionColor = Colors::none):
 				T(x, y, z, font, color)
 			{
-				setCaretColor(caretColor);
-				setCaretWidth(caretWidth);
-				setSelectionColor(selectionColor);
+				this->setCaretColor(caretColor);
+				this->setCaretWidth(caretWidth);
+				this->setSelectionColor(selectionColor);
 			}
 
 			virtual ~BasicTextInput() {}
@@ -274,47 +274,47 @@ namespace GosuEx {
 			void enableTextInput() {
 				FrameManager::singleton().enableTextInput(this);
 				FrameManager::singleton().input().setTextInput(&pimpl.input);
-				hover();
+				this->hover();
 			}
 
 			void disableTextInput() {
 				FrameManager::singleton().disableTextInput(this);
 				FrameManager::singleton().input().setTextInput(NULL);
-				blur();
+				this->blur();
 			}
 
 			virtual void draw() {
-				if (!shouldDraw())
+				if (!this->shouldDraw())
 					return;
 				T::draw();
 
-				if (!enabledTextInput())
+				if (!this->enabledTextInput())
 					return;
 				FrameManager::singleton().graphics().drawQuad(
-					dispX()+font()->textWidth(text().substr(0, pimpl.input.selectionStart()), factorX()), dispY(), selectionColor(),
-					dispX()+font()->textWidth(text().substr(0, pimpl.input.caretPos()), factorX()), dispY(), selectionColor(),
-					dispX()+font()->textWidth(text().substr(0, pimpl.input.caretPos()), factorX()), dispY()+dispHeight(), selectionColor(),
-					dispX()+font()->textWidth(text().substr(0, pimpl.input.selectionStart()), factorX()), dispY()+dispHeight(), selectionColor(),
+					this->dispX()+font()->textWidth(text().substr(0, pimpl.input.selectionStart()), this->factorX()), this->dispY(), this->selectionColor(),
+					this->dispX()+font()->textWidth(text().substr(0, pimpl.input.caretPos()), this->factorX()), this->dispY(), this->selectionColor(),
+					this->dispX()+font()->textWidth(text().substr(0, pimpl.input.caretPos()), this->factorX()), this->dispY()+this->dispHeight(), this->selectionColor(),
+					this->dispX()+font()->textWidth(text().substr(0, pimpl.input.selectionStart()), this->factorX()), this->dispY()+this->dispHeight(), this->selectionColor(),
 					z()
 				);
 
 				std::wstring subtext = text().substr(0, pimpl.input.caretPos());
 				Unit cp = dispX() + factorX()*font()->textWidth(text().substr(0, pimpl.input.caretPos()), factorX());
 				FrameManager::singleton().graphics().drawQuad(
-					cp - caretWidth()/2, dispY(), caretColor(),
-					cp + caretWidth()/2, dispY(), caretColor(),
-					cp + caretWidth()/2, dispY()+dispHeight(), caretColor(),
-					cp - caretWidth()/2, dispY()+dispHeight(), caretColor(),
+					cp - caretWidth()/2, this->dispY(), caretColor(),
+					cp + caretWidth()/2, this->dispY(), caretColor(),
+					cp + caretWidth()/2, this->dispY()+this->dispHeight(), caretColor(),
+					cp - caretWidth()/2, this->dispY()+this->dispHeight(), caretColor(),
 					z()
 				);
 			}
 
 			virtual void update() {
-				if (enabledTextInput() && clicked(Gosu::msLeft)) {
+				if (enabledTextInput() && this->clicked(Gosu::msLeft)) {
 					double dist = std::numeric_limits<double>::infinity();
 					Unit mx = FrameManager::singleton().input().mouseX();
-					for (std::size_t i = 0; i < text().length(); i++) {
-						Unit z = dispX() + font()->textWidth(text().substr(0, i), factorX());
+					for (std::size_t i = 0; i < this->text().length(); i++) {
+						Unit z = this->dispX() + font()->textWidth(text().substr(0, i), this->factorX());
 						if (abs(mx-z) < dist) {
 							dist = abs(mx-z);
 						} else {
@@ -332,7 +332,7 @@ namespace GosuEx {
 					double dist = std::numeric_limits<double>::infinity();
 					Unit mx = FrameManager::singleton().input().mouseX();
 					for (std::size_t i = 0; i < text().length(); i++) {
-						Unit z = dispX() + font()->textWidth(text().substr(0, i), factorX());
+						Unit z = this->dispX() + font()->textWidth(text().substr(0, i), this->factorX());
 						if (abs(mx-z) < dist) {
 							dist = abs(mx-z);
 						} else {

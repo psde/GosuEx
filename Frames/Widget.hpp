@@ -6,9 +6,6 @@
 */
 
 #include <GosuEx/Frames/Fwd.hpp>
-#include <vector>
-#include <set>
-#include <string>
 #include <Gosu/Color.hpp>
 #include <Gosu/Input.hpp>
 

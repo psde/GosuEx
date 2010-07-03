@@ -4,9 +4,6 @@
 #include <GosuEx/Frames/Fwd.hpp>
 #include <Gosu/Fwd.hpp>
 #include <Gosu/Input.hpp>
-#include <vector>
-#include <string>
-#include <map>
 // Memory allocation and stuff.
 
 namespace GosuEx {

@@ -15,16 +15,16 @@ namespace GosuEx {
 		template<typename T> class BasicCursor : public T {
 		public:
 			BasicCursor(Unit z): T() {
-				setZ(z);
+				this->setZ(z);
 			}
 
 			BasicCursor(Unit z, boost::shared_ptr<Gosu::Image> image): T(0, 0, z, image) {}
 
 			virtual void update() {
-				if (!visible())
+				if (!this->visible())
 					return;
-				setX(FrameManager::singleton().input().mouseX());
-				setY(FrameManager::singleton().input().mouseY());
+				this->setX(FrameManager::singleton().input().mouseX());
+				this->setY(FrameManager::singleton().input().mouseY());
 				T::update();
 			}
 

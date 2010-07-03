@@ -23,7 +23,7 @@ namespace GosuEx {
 			BasicButton(Unit x, Unit y, Unit z, boost::shared_ptr<Gosu::Image> image, boost::shared_ptr<Gosu::Font> font, const std::wstring& text, Color textColor, Color backgroundColor = Colors::white):
 				TBack(x, y, z, image, backgroundColor)
 			{
-				createChild(pimpl.textWidget = new TText(x, y, z+1, font, textColor));
+				this->createChild(pimpl.textWidget = new TText(x, y, z+1, font, textColor));
 				textWidget().setText(text);
 				textWidget().setHighlightable(false);
 				textWidget().setRelX(0.5);
@@ -34,7 +34,7 @@ namespace GosuEx {
 			BasicButton(Unit x, Unit y, Unit z, Unit width, Unit height, boost::shared_ptr<Gosu::Font> font, const std::wstring& text, Color textColor, Color backgroundColor = Colors::none, Color borderColor = Colors::none, Unit borderWidth = 0.0):
 				TBack(x, y, z, width, height, backgroundColor, borderColor, borderWidth)
 			{
-				createChild(pimpl.textWidget = new TText(x, y, z+1, font, textColor));
+				this->createChild(pimpl.textWidget = new TText(x, y, z+1, font, textColor));
 				textWidget().setText(text);
 				textWidget().setHighlightable(false);
 				textWidget().setRelX(0.5);
@@ -72,8 +72,8 @@ namespace GosuEx {
 			TText& textWidget() const { return *pimpl.textWidget; }
 
 			virtual void reset() {
-				setWidth(pimpl.textWidget->dispWidth());
-				setHeight(pimpl.textWidget->dispHeight());
+				this->setWidth(pimpl.textWidget->dispWidth());
+				this->setHeight(pimpl.textWidget->dispHeight());
 			}
 
 		};

@@ -10,6 +10,10 @@
 #	endif
 #endif
 
+#include <set>
+#include <vector>
+#include <string>
+#include <map>
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/foreach.hpp>

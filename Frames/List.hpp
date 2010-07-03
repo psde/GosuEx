@@ -29,20 +29,20 @@ namespace GosuEx {
 			}
 
 			virtual void draw() {
-				if (!shouldDraw())
+				if (!this->shouldDraw())
 					return;
 
-				if (dispX() >= 0 && dispY() >= 0)
-					FrameManager::singleton().graphics().beginClipping(static_cast<unsigned int>(dispX()), static_cast<unsigned int>(dispY()), static_cast<unsigned int>(dispWidth()), static_cast<unsigned int>(dispHeight()));
+				if (this->dispX() >= 0 && this->dispY() >= 0)
+					FrameManager::singleton().graphics().beginClipping(static_cast<unsigned int>(this->dispX()), static_cast<unsigned int>(this->dispY()), static_cast<unsigned int>(this->dispWidth()), static_cast<unsigned int>(this->dispHeight()));
 				
 				Widget::draw();
 
-				if (dispX() >= 0 && dispY() >= 0)
+				if (this->dispX() >= 0 && this->dispY() >= 0)
 					FrameManager::singleton().graphics().endClipping();
 			}
 
 			TElement& createElement(const TKey& key, TElement* element, const std::wstring& name) {
-				createElement(key, element);
+				this->createElement(key, element);
 				element->setName(name);
 				FrameManager::singleton().addNamedWidget(element);
 				return *element;
@@ -50,7 +50,7 @@ namespace GosuEx {
 
 			TElement& createElement(const TKey& key, TElement* element) {
 				FrameManager::singleton().addWidget(element);
-				addElement(key, element);
+				this->addElement(key, element);
 				return *element;
 			}
 
@@ -70,7 +70,7 @@ namespace GosuEx {
 
 			void deleteElement(const TKey& key) {
 				TElement* el = element(key);
-				removeElement(key);
+				this->removeElement(key);
 				FrameManager::singleton().deleteWidget(el);
 			}
 
@@ -128,7 +128,7 @@ public:
 					return;
 
 				Unit i;
-				Unit oy = dispY()-modf(index(), &i)*pimpl.iterator->second->dispHeight();
+				Unit oy = this->dispY()-modf(index(), &i)*pimpl.iterator->second->dispHeight();
 				
 				for (std::map<TKey, TElement*>::iterator it = pimpl.elements.begin(); it != pimpl.elements.end(); ++it)
 					it->second->hide();
