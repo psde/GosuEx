@@ -139,9 +139,9 @@ namespace GosuEx {
 			virtual void buttonUp(Gosu::Button btn);
 			virtual void buttonDown(Gosu::Button btn);
 
-			void setButtonUpHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
-			void setButtonDownHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
-			void setClickHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
+			virtual void setButtonUpHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
+			virtual void setButtonDownHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
+			virtual void setClickHandler(Gosu::Button btn, boost::function<void(Widget*, Gosu::Button btn)> fct);
 			bool clicked(Gosu::Button btn);
 
 			boost::function<void(Widget*)> onBlur, onHover;

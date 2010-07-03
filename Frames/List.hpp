@@ -41,6 +41,13 @@ namespace GosuEx {
 					FrameManager::singleton().graphics().endClipping();
 			}
 
+			TElement& createElement(const TKey& key, TElement* element, const std::wstring& name) {
+				createElement(key, element);
+				element->setName(name);
+				FrameManager::singleton().addNamedWidget(element);
+				return *element;
+			}
+
 			TElement& createElement(const TKey& key, TElement* element) {
 				FrameManager::singleton().addWidget(element);
 				addElement(key, element);
@@ -72,8 +79,6 @@ namespace GosuEx {
 			}
 
 			const std::map<TKey, TElement*>& elements() const { return pimpl.elements; }
-
-			//std::size_t elements() const { return pimpl.elements.size(); }
 
 			Unit index() const { return pimpl.index; }
 

@@ -6,6 +6,7 @@
 #include <GosuEx/Frames/Frame.hpp>
 #include <GosuEx/Frames/Text.hpp>
 #include <GosuEx/Frames/Image.hpp>
+#include <GosuEx/Frames/FrameManager.hpp>
 
 /**
 * Don't forget to reset() after doing things with the textWidget
@@ -40,7 +41,7 @@ namespace GosuEx {
 				textWidget().setRelY(0.5);
 				reset();
 			}
-			
+
 			virtual void update() {
 				pimpl.textWidget->setX(dispX()+dispWidth()/2.0);
 				pimpl.textWidget->setY(dispY()+dispHeight()/2.0);
@@ -58,8 +59,14 @@ namespace GosuEx {
 				TBack::hover();
 			}
 
-			virtual ~BasicButton() {
-				//delete pimpl.textWidget;
+			virtual void buttonDown(Gosu::Button btn) {
+				textWidget().buttonDown(btn);
+				TBack::buttonDown(btn);
+			}
+
+			virtual void buttonUp(Gosu::Button btn) {
+				textWidget().buttonUp(btn);
+				TBack::buttonUp(btn);
 			}
 
 			TText& textWidget() const { return *pimpl.textWidget; }
