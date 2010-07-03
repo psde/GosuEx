@@ -53,16 +53,16 @@ namespace GosuEx {
 			} pimpl;
 		public:
 			ExtBasicText(Unit x, Unit y, Unit z, boost::shared_ptr<Gosu::Font> font, Color textColor, Color highlightedTextColor = Colors::none, Color disabledTextColor = Colors::none, Color disabledHighlightTextColor = Colors::none):
-				BasicText(x, y, z, font, textColor)
+				BasicText<T>(x, y, z, font, textColor)
 			{
 				if (disabledTextColor != Colors::none)
 					pimpl.disabledTextColor = disabledTextColor;
 				else
-					pimpl.disabledTextColor = defaultTextColor();
+					pimpl.disabledTextColor = this->defaultTextColor();
 				if (highlightedTextColor != Colors::none)
 					pimpl.highlightedTextColor = highlightedTextColor;
 				else
-					pimpl.highlightedTextColor = defaultTextColor();
+					pimpl.highlightedTextColor = this->defaultTextColor();
 				if (disabledHighlightTextColor != Colors::none)
 					pimpl.disabledHighlightTextColor = disabledHighlightTextColor;
 				else
@@ -78,7 +78,7 @@ namespace GosuEx {
 			void setDisabledHighlightTextColor(Color newColor) { pimpl.disabledHighlightTextColor = newColor; }
 
 			virtual void setAllTextColors(Color newColor) { 
-				BasicText::setAllTextColors(newColor);
+				BasicText<T>::setAllTextColors(newColor);
 				this->setDisabledTextColor(newColor);
 				this->setHighlightedTextColor(newColor);
 				this->setDisabledHighlightTextColor(newColor);
@@ -130,9 +130,9 @@ namespace GosuEx {
 			}
 
 			virtual void draw() {
-				if (!shouldDraw())
+				if (!this->shouldDraw())
 					return;
-				pimpl.img->draw(dispX(), dispY(), z(), factorX(), factorY(), textColor());
+				pimpl.img->draw(this->dispX(), this->dispY(), z(), this->factorX(), this->factorY(), this->textColor());
 				T::draw();
 			}
 
@@ -145,9 +145,9 @@ namespace GosuEx {
 
 			virtual void reset() {
 				Gosu::Bitmap bm;
-				if (!text().empty()) {
-					bm.resize(Gosu::textWidth(text(), font()->name(), font()->height(), font()->flags()), font()->height());
-					Gosu::drawText(bm, text(), 0, 0, Colors::white, font()->name(), font()->height(), font()->flags());
+				if (!this->text().empty()) {
+					bm.resize(Gosu::textWidth(this->text(), this->font()->name(), this->font()->height(), this->font()->flags()), this->font()->height());
+					Gosu::drawText(bm, this->text(), 0, 0, Colors::white, this->font()->name(), this->font()->height(), this->font()->flags());
 				}
 				this->setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), bm));
 				this->setWidth(pimpl.img->width());
@@ -186,9 +186,9 @@ namespace GosuEx {
 
 		protected:			
 			virtual void reset() {
-				this->setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), Gosu::createText(text(), font()->name(), font()->height(), pimpl.lineSpacing, static_cast<unsigned int>(pimpl.maxWidth), pimpl.align, font()->flags())));
-				this->setWidth(textImage()->width());
-				this->setHeight(textImage()->height());
+				this->setTextImage(new Gosu::Image(FrameManager::singleton().graphics(), Gosu::createText(this->text(), this->font()->name(), this->font()->height(), pimpl.lineSpacing, static_cast<unsigned int>(pimpl.maxWidth), pimpl.align, this->font()->flags())));
+				this->setWidth(this->textImage()->width());
+				this->setHeight(this->textImage()->height());
 			}
 		};
 
@@ -219,14 +219,14 @@ namespace GosuEx {
 			}
 
 			void draw() {
-				if (!shouldDraw())
+				if (!this->shouldDraw())
 					return;
-				this->font()->draw(text(), dispX(), dispY(), z(), factorX(), factorY(), textColor());
+				this->font()->draw(this->text(), this->dispX(), this->dispY(), this->z(), this->factorX(), this->factorY(), this->textColor());
 			}
 		protected:
 			void reset() {
-				this->setWidth(Gosu::textWidth(text(), font()->name(), font()->height(), font()->flags()));
-				this->setHeight(font()->height());
+				this->setWidth(Gosu::textWidth(this->text(), this->font()->name(), this->font()->height(), this->font()->flags()));
+				this->setHeight(this->font()->height());
 			}
 		};
 
@@ -291,21 +291,21 @@ namespace GosuEx {
 				if (!this->enabledTextInput())
 					return;
 				FrameManager::singleton().graphics().drawQuad(
-					this->dispX()+font()->textWidth(text().substr(0, pimpl.input.selectionStart()), this->factorX()), this->dispY(), this->selectionColor(),
-					this->dispX()+font()->textWidth(text().substr(0, pimpl.input.caretPos()), this->factorX()), this->dispY(), this->selectionColor(),
-					this->dispX()+font()->textWidth(text().substr(0, pimpl.input.caretPos()), this->factorX()), this->dispY()+this->dispHeight(), this->selectionColor(),
-					this->dispX()+font()->textWidth(text().substr(0, pimpl.input.selectionStart()), this->factorX()), this->dispY()+this->dispHeight(), this->selectionColor(),
-					z()
+					this->dispX()+this->font()->textWidth(this->text().substr(0, pimpl.input.selectionStart()), this->factorX()), this->dispY(), this->selectionColor(),
+					this->dispX()+this->font()->textWidth(this->text().substr(0, pimpl.input.caretPos()), this->factorX()), this->dispY(), this->selectionColor(),
+					this->dispX()+this->font()->textWidth(this->text().substr(0, pimpl.input.caretPos()), this->factorX()), this->dispY()+this->dispHeight(), this->selectionColor(),
+					this->dispX()+this->font()->textWidth(this->text().substr(0, pimpl.input.selectionStart()), this->factorX()), this->dispY()+this->dispHeight(), this->selectionColor(),
+					this->z()
 				);
 
-				std::wstring subtext = text().substr(0, pimpl.input.caretPos());
-				Unit cp = dispX() + factorX()*font()->textWidth(text().substr(0, pimpl.input.caretPos()), factorX());
+				std::wstring subtext = this->text().substr(0, pimpl.input.caretPos());
+				Unit cp = this->dispX() + this->factorX()*this->font()->textWidth(this->text().substr(0, pimpl.input.caretPos()), this->factorX());
 				FrameManager::singleton().graphics().drawQuad(
 					cp - caretWidth()/2, this->dispY(), caretColor(),
 					cp + caretWidth()/2, this->dispY(), caretColor(),
 					cp + caretWidth()/2, this->dispY()+this->dispHeight(), caretColor(),
 					cp - caretWidth()/2, this->dispY()+this->dispHeight(), caretColor(),
-					z()
+					this->z()
 				);
 			}
 
@@ -314,7 +314,7 @@ namespace GosuEx {
 					double dist = std::numeric_limits<double>::infinity();
 					Unit mx = FrameManager::singleton().input().mouseX();
 					for (std::size_t i = 0; i < this->text().length(); i++) {
-						Unit z = this->dispX() + font()->textWidth(text().substr(0, i), this->factorX());
+						Unit z = this->dispX() + this->font()->textWidth(this->text().substr(0, i), this->factorX());
 						if (abs(mx-z) < dist) {
 							dist = abs(mx-z);
 						} else {
@@ -332,7 +332,7 @@ namespace GosuEx {
 					double dist = std::numeric_limits<double>::infinity();
 					Unit mx = FrameManager::singleton().input().mouseX();
 					for (std::size_t i = 0; i < text().length(); i++) {
-						Unit z = this->dispX() + font()->textWidth(text().substr(0, i), this->factorX());
+						Unit z = this->dispX() + this->font()->textWidth(this->text().substr(0, i), this->factorX());
 						if (abs(mx-z) < dist) {
 							dist = abs(mx-z);
 						} else {
