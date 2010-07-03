@@ -269,6 +269,7 @@ std::wstring FrameSet::name() const {
 }
 
 void FrameManager::deleteSet(const std::wstring& name) {
+	delete pimpl->namedSets.find(name)->second;
 	pimpl->namedSets.erase(pimpl->namedSets.find(name));
 }
 

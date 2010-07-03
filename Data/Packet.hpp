@@ -2,6 +2,7 @@
 #define GOSUEX_DATA_PACKET_HPP
 
 #include <vector>
+#include <set>
 #include <string>
 #include <boost/foreach.hpp>
 #include <Gosu/IO.hpp>
@@ -27,11 +28,12 @@ namespace GosuEx {
 						// Adding something
 						template<typename T> Packet& operator<<(const T& o);
 						template<typename T> Packet& operator<<(const std::vector<T>& o);
+						template<typename T> Packet& operator<<(const std::set<T>& o);
 
 						// Reading something
 						template<typename T> Packet& operator>>(T& o);
 						template<typename T> Packet& operator>>(std::vector<T>& o);
-
+						template<typename T> Packet& operator>>(std::set<T>& o);
 						// Getting the buffer
 						const void* data() const { return &buf[0]; }
 						bool more() const { return index < size(); }
@@ -79,7 +81,7 @@ namespace GosuEx {
 				
 				template<typename T> inline Packet& Packet::operator<< (const std::vector<T>& o) {
 					*this << (std::size_t)o.size();
-					BOOST_FOREACH(T t, o) {
+					BOOST_FOREACH(const T& t, o) {
 						*this << t;
 					}
 					return *this;
@@ -88,11 +90,32 @@ namespace GosuEx {
 				template<typename T> inline Packet& Packet::operator>> (std::vector<T>& o) {
 					std::size_t l;
 					*this >> l;
-					index += l*sizeof(T);
-					if (size() < index)
-						throw std::out_of_range("Out of range: Packet::operator>> <std::vector<T>>");
-					o.resize(l);
-					memcpy(&o[0], &buf[index-l*sizeof(T)], l*sizeof(T));
+					o.reserve(l);
+					for (std::size_t i = 0; i < l; ++i) {
+						T t;
+						*this >> t;
+						o.push_back(t);
+					}
+					//memcpy(&o[0], &buf[index-l*sizeof(T)], l*sizeof(T));
+					return *this;
+				}
+
+				template<typename T> inline Packet& Packet::operator<< (const std::set<T>& o) {
+					*this << (std::size_t)o.size();
+					BOOST_FOREACH(const T& t, o) {
+						*this << t;
+					}
+					return *this;
+				}
+
+				template<typename T> inline Packet& Packet::operator>> (std::set<T>& o) {
+					std::size_t l;
+					*this >> l;
+					for (std::size_t i = 0; i < l; ++i) {
+						T t;
+						*this >> t;
+						o.insert(t);
+					}
 					return *this;
 				}
 
