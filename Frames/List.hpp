@@ -107,7 +107,7 @@ namespace GosuEx {
 				Unit i;
 				Unit h = -std::modf(newIndex, &i)*pimpl.iterator->second->dispHeight();
 				
-				for (std::map<TKey, TElement*>::iterator it = pimpl.iterator; it != pimpl.elements.end(); ++it) {
+				for (typename std::map<TKey, TElement*>::iterator it = pimpl.iterator; it != pimpl.elements.end(); ++it) {
 					pimpl.visibleElements++;
 					if ((h += it->second->dispHeight()) > dispHeight()) break;
 				}
@@ -131,7 +131,7 @@ public:
 				Unit i;
 				Unit oy = this->dispY()-std::modf(index(), &i)*pimpl.iterator->second->dispHeight();
 				
-				for (std::map<TKey, TElement*>::iterator it = pimpl.elements.begin(); it != pimpl.elements.end(); ++it)
+				for (typename std::map<TKey, TElement*>::iterator it = pimpl.elements.begin(); it != pimpl.elements.end(); ++it)
 					it->second->hide();
 
 				std::map<TKey, TElement*>::iterator it = pimpl.iterator;

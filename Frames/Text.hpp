@@ -3,6 +3,7 @@
 
 #include <GosuEx/Frames/Fwd.hpp>
 #include <GosuEx/Frames/Frame.hpp>
+#include <GosuEx/Frames/FrameManager.hpp>
 #include <Gosu/Input.hpp>
 #include <Gosu/Text.hpp>
 #include <Gosu/Image.hpp>
