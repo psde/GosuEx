@@ -132,7 +132,7 @@ namespace GosuEx {
 			virtual void draw() {
 				if (!this->shouldDraw())
 					return;
-				pimpl.img->draw(this->dispX(), this->dispY(), z(), this->factorX(), this->factorY(), this->textColor());
+				pimpl.img->draw(this->dispX(), this->dispY(), this->z(), this->factorX(), this->factorY(), this->textColor());
 				T::draw();
 			}
 
