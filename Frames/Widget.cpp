@@ -245,6 +245,9 @@ bool Widget::shouldUpdate() const {
 }
 
 void Widget::buttonDown(Gosu::Button btn) {
+	if (!shouldUpdate())
+		return;
+
 	if (pimpl->btnDown.find(btn) != pimpl->btnDown.end()) {
 		pimpl->btnDown[btn](this, btn);
 		pimpl->clicked[btn] = true;
@@ -259,6 +262,9 @@ void Widget::buttonDown(Gosu::Button btn) {
 }
 
 void Widget::buttonUp(Gosu::Button btn) {
+	if (!shouldUpdate())
+		return;
+
 	if (pimpl->btnUp.find(btn) != pimpl->btnUp.end())
 		pimpl->btnUp[btn](this, btn);
 	

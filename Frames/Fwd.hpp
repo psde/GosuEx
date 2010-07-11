@@ -32,10 +32,14 @@ namespace GosuEx {
 	namespace Frames {
 		class Widget;
 		class Frame;
+		class ExtFrame;
 		class SquareCursor;
 		class TriangleCursor;
 		class ExtFrame;
 		class FrameManager;
+		class FrameSet;
+		class Image;
+		class ExtImage;
 	}
 }
 #endif
