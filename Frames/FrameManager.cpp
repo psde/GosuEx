@@ -216,7 +216,7 @@ void FrameManager::buttonDown(Gosu::Button btn) {
 
 Widget& FrameSet::namedWidget(const std::wstring& name) const {
 	if (pimpl->namedWidgets.find(name) == pimpl->namedWidgets.end())
-		throw std::invalid_argument("Widget " + Gosu::narrow(name) + " does not exist");
+		throw std::invalid_argument("Widget " + Gosu::wstringToUTF8(name) + " does not exist");
 	return *pimpl->namedWidgets[name];
 }
 
@@ -226,7 +226,7 @@ Widget& FrameManager::namedWidget(const std::wstring& name) const {
 
 boost::shared_ptr<Gosu::Font> FrameManager::namedFont(const std::wstring& name) const {
 	if (pimpl->namedFonts.find(name) == pimpl->namedFonts.end())
-		throw std::invalid_argument("Font " + Gosu::narrow(name) + " does not exist");
+		throw std::invalid_argument("Font " + Gosu::wstringToUTF8(name) + " does not exist");
 	return pimpl->namedFonts[name];
 }
 
