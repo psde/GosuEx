@@ -7,6 +7,8 @@ EXTENSIONS
 <dd>Easy to use FPS counter class. Header-only.</dd>
 <dt>Shader</dt>
 <dd>Provides simple ways to load, run and debug shaders with gosu. Header-only</dd>
+<dt>FileDialogs</dt>
+<dd>As of now only supported for Windows XP, Vista and 7, FileDialogs provide "Open File..." and "Save File..." dialogs. Library.</dd>
 <dt>Frames</dt>
 <dd>Widgets that can be used to build an user interface pretty fast and pretty easy in Gosu. Library.</dd>
 </dl>

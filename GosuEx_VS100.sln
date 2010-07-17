@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Data", "Data\Data_VS100.vcxproj", "{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FpsCounter", "FpsCounter\FpsCounter_VS100.vcxproj", "{CB168722-F0FB-46B5-87F0-3AB954C11320}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shader", "Shader\Shader_VS100.vcxproj", "{690AB793-BA3F-43ED-9887-62FB54CF21D0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Frames", "Frames\Frames.vcxproj", "{0A206042-1213-4EFB-AF48-1627AF72629E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileDialogs", "FileDialogs\FileDialogs.vcxproj", "{D7FF49B7-DBCC-4248-8759-D42A1CC67F1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,6 @@ Global
 		{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}.Debug|Win32.Build.0 = Debug|Win32
 		{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}.Release|Win32.ActiveCfg = Release|Win32
 		{B2FAD7C7-2C6A-4E03-964C-AA2CDE5C2029}.Release|Win32.Build.0 = Release|Win32
-		{CB168722-F0FB-46B5-87F0-3AB954C11320}.Debug|Win32.ActiveCfg = Debug|Win32
-		{CB168722-F0FB-46B5-87F0-3AB954C11320}.Debug|Win32.Build.0 = Debug|Win32
-		{CB168722-F0FB-46B5-87F0-3AB954C11320}.Release|Win32.ActiveCfg = Release|Win32
-		{CB168722-F0FB-46B5-87F0-3AB954C11320}.Release|Win32.Build.0 = Release|Win32
 		{690AB793-BA3F-43ED-9887-62FB54CF21D0}.Debug|Win32.ActiveCfg = Debug|Win32
 		{690AB793-BA3F-43ED-9887-62FB54CF21D0}.Debug|Win32.Build.0 = Debug|Win32
 		{690AB793-BA3F-43ED-9887-62FB54CF21D0}.Release|Win32.ActiveCfg = Release|Win32
@@ -31,6 +27,10 @@ Global
 		{0A206042-1213-4EFB-AF48-1627AF72629E}.Debug|Win32.Build.0 = Debug|Win32
 		{0A206042-1213-4EFB-AF48-1627AF72629E}.Release|Win32.ActiveCfg = Release|Win32
 		{0A206042-1213-4EFB-AF48-1627AF72629E}.Release|Win32.Build.0 = Release|Win32
+		{D7FF49B7-DBCC-4248-8759-D42A1CC67F1A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D7FF49B7-DBCC-4248-8759-D42A1CC67F1A}.Debug|Win32.Build.0 = Debug|Win32
+		{D7FF49B7-DBCC-4248-8759-D42A1CC67F1A}.Release|Win32.ActiveCfg = Release|Win32
+		{D7FF49B7-DBCC-4248-8759-D42A1CC67F1A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
