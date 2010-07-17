@@ -14,7 +14,6 @@
     <ClInclude Include="AutoLink.hpp" />
     <ClInclude Include="FileDialogs.hpp" />
     <ClInclude Include="FileDialogsWin.hpp" />
-    <ClInclude Include="Fwd.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileDialogs.cpp" />

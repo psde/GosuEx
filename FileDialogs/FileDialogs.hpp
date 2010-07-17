@@ -1,7 +1,6 @@
 #ifndef GOSUEX_FILEDIALOGS_FILEDIALOGS_HPP
 #define GOSUEX_FILEDIALOGS_FILEDIALOGS_HPP
 
-#include <GosuEx/FileDialogs/Fwd.hpp>
 #include <Gosu/Fwd.hpp>
 
 #include <string>
