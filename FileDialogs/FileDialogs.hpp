@@ -27,6 +27,7 @@ namespace GosuEx {
 		class FileDialog {
 		public:
 			virtual void setFilename(const std::wstring& name) = 0;
+			virtual ~FileDialog();
 		};
 
 		// Parent of all "Open File..." dialogs.

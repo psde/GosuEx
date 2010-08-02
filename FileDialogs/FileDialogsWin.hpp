@@ -130,7 +130,7 @@ namespace GosuEx {
 				}
 			}
 		public:
-			~FileDialog7() {
+			virtual ~FileDialog7() {
 				this->pfd->Release();
 				this->initialdir->Release();
 			}

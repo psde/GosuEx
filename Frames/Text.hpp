@@ -9,6 +9,7 @@
 #include <Gosu/Image.hpp>
 #include <Gosu/Font.hpp>
 #include <Gosu/TextInput.hpp>
+#include <Gosu/Graphics.hpp>
 
 namespace GosuEx {
 	namespace Frames {
